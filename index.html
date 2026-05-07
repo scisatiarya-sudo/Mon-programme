@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Mon Programme</title>
+<style>
+:root {
+  --bg: #0f0f0f; --card: #1a1a1a; --card2: #222; --border: #2a2a2a;
+  --accent: #4f9eff; --green: #34d399; --orange: #f59e0b; --red: #ef4444;
+  --purple: #a78bfa; --text: #e5e5e5; --muted: #888; --radius: 14px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-tap-highlight-color:transparent;}
+button{font-family:inherit;}
+
+/* ===== BOTTOM NAV ===== */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);display:flex;z-index:200;padding:6px 0 env(safe-area-inset-bottom,8px);}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;background:none;border:none;color:var(--muted);font-size:10px;cursor:pointer;}
+.nav-btn.active{color:var(--accent);}
+.nav-btn .nav-icon{font-size:20px;}
+
+/* ===== SCREENS ===== */
+.screen{display:none;padding:16px 16px 90px;}
+.screen.active{display:block;}
+
+/* ===== HOME ===== */
+.home-header{text-align:center;padding:20px 0 24px;}
+.home-header h1{font-size:22px;margin-bottom:4px;}
+.home-header p{font-size:13px;color:var(--muted);}
+.new-session-btn{width:100%;padding:16px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius);font-size:16px;font-weight:700;cursor:pointer;margin-bottom:20px;}
+.session-pick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
+.pick-card{background:var(--card);border:2px solid var(--border);border-radius:var(--radius);padding:16px 12px;cursor:pointer;text-align:left;transition:border-color .2s;}
+.pick-card.selected{border-color:var(--accent);}
+.pick-card .pick-letter{font-size:24px;font-weight:800;margin-bottom:4px;}
+.pick-card .pick-name{font-size:13px;font-weight:600;margin-bottom:4px;}
+.pick-card .pick-desc{font-size:11px;color:var(--muted);line-height:1.4;}
+.pick-card[data-s="push"] .pick-letter{color:var(--accent);}
+.pick-card[data-s="pull"] .pick-letter{color:var(--green);}
+.pick-card[data-s="legs"] .pick-letter{color:var(--orange);}
+.pick-card[data-s="optional"] .pick-letter{color:var(--purple);}
+.pick-card[data-s="push"].selected{border-color:var(--accent);}
+.pick-card[data-s="pull"].selected{border-color:var(--green);}
+.pick-card[data-s="legs"].selected{border-color:var(--orange);}
+.pick-card[data-s="optional"].selected{border-color:var(--purple);}
+.start-row{display:flex;gap:10px;align-items:center;margin-bottom:12px;}
+.start-row input[type=date]{flex:1;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:14px;}
+.start-row .weight-group{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 12px;}
+.start-row .weight-group input{background:none;border:none;color:var(--text);font-size:14px;width:50px;text-align:center;outline:none;}
+.start-row .weight-group span{color:var(--muted);font-size:13px;}
+.go-btn{width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer;display:none;}
+.go-btn:disabled{opacity:.4;}
+
+/* week preview */
+.week-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px;margin-bottom:20px;}
+.week-box h3{font-size:13px;margin-bottom:8px;color:var(--muted);}
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;}
+.week-day{font-size:10px;color:var(--muted);padding:2px 0;}
+.week-val{font-size:10px;padding:6px 2px;border-radius:6px;background:var(--border);color:var(--text);line-height:1.2;}
+.week-val.push{background:#1a2a3a;color:var(--accent);}
+.week-val.pull{background:#1a2a2a;color:var(--green);}
+.week-val.legs{background:#2a2a1a;color:var(--orange);}
+.week-val.padel{background:#2a1a2a;color:#e879f9;}
+.week-val.rest{background:var(--card2);color:var(--muted);}
+.week-val.opt{background:#1a1a2a;color:var(--purple);}
+
+/* ===== SESSION (active workout) ===== */
+.session-bar{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;}
+.session-bar .back-btn{background:none;border:none;color:var(--accent);font-size:14px;cursor:pointer;padding:4px 8px;}
+.session-bar .session-info{text-align:right;}
+.session-bar .session-info .s-name{font-size:14px;font-weight:700;}
+.session-bar .session-info .s-date{font-size:11px;color:var(--muted);}
+.progress-bar{height:3px;background:var(--border);margin:0 16px 0;}
+.progress-fill{height:100%;background:var(--accent);transition:width .3s;border-radius:2px;}
+
+.exercise-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin:12px 16px;}
+.exercise-card.warmup{border-left:3px solid var(--orange);}
+.exercise-card.core{border-left:3px solid var(--red);}
+.exercise-card.tabata{border-left:3px solid var(--purple);}
+.ex-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;}
+.ex-name{font-size:14px;font-weight:600;flex:1;}
+.ex-tag{font-size:10px;padding:2px 8px;border-radius:20px;background:var(--border);color:var(--muted);white-space:nowrap;flex-shrink:0;}
+.ex-tag.warmup-tag{background:#3b2a0a;color:var(--orange);}
+.ex-tag.core-tag{background:#3b0a0a;color:var(--red);}
+.ex-tag.tabata-tag{background:#2a1a3a;color:var(--purple);}
+.ex-detail{font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.5;}
+.ex-note{font-size:11px;color:var(--orange);margin-bottom:8px;font-style:italic;}
+.sets-grid{display:flex;flex-direction:column;gap:6px;}
+.set-row{display:flex;align-items:center;gap:6px;font-size:13px;}
+.set-label{width:26px;color:var(--muted);font-size:12px;flex-shrink:0;text-align:center;}
+.set-check{width:30px;height:30px;appearance:none;-webkit-appearance:none;border:2px solid var(--border);border-radius:8px;background:var(--bg);cursor:pointer;flex-shrink:0;position:relative;}
+.set-check:checked{background:var(--accent);border-color:var(--accent);}
+.set-check:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:15px;font-weight:700;}
+.set-input{width:52px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:7px 4px;font-size:13px;text-align:center;}
+.set-input:focus{border-color:var(--accent);outline:none;}
+.set-unit{font-size:11px;color:var(--muted);width:26px;flex-shrink:0;}
+.rest-section{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.rest-btn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;min-width:110px;text-align:center;}
+.rest-btn.running{background:var(--orange);animation:pulse 1s infinite alternate;}
+.rest-btn.done{background:var(--green);}
+@keyframes pulse{from{opacity:.8}to{opacity:1}}
+.rest-info{font-size:12px;color:var(--muted);}
+
+.session-actions{padding:16px;display:flex;gap:10px;}
+.save-btn{flex:1;padding:14px;border:none;border-radius:var(--radius);font-size:14px;font-weight:700;cursor:pointer;}
+.save-btn.primary{background:var(--accent);color:#fff;}
+.save-btn.secondary{background:var(--border);color:var(--text);}
+.progression-note{background:#1a2a1a;border:1px solid #2a3a2a;border-radius:var(--radius);padding:12px;margin:12px 16px;font-size:12px;color:var(--green);line-height:1.5;}
+
+/* Tabata timer */
+.tabata-timer-box{background:var(--card);border:2px solid var(--purple);border-radius:var(--radius);padding:20px;margin:12px 16px;text-align:center;}
+.tabata-timer-box h3{font-size:14px;color:var(--purple);margin-bottom:4px;}
+.tabata-timer-box .tabata-sub{font-size:11px;color:var(--muted);margin-bottom:16px;}
+.tabata-display{font-size:56px;font-weight:800;font-variant-numeric:tabular-nums;margin:8px 0;}
+.tabata-display.work{color:var(--green);}
+.tabata-display.rest-phase{color:var(--red);}
+.tabata-phase{font-size:16px;font-weight:700;margin-bottom:4px;}
+.tabata-round{font-size:13px;color:var(--muted);margin-bottom:16px;}
+.tabata-controls{display:flex;gap:10px;justify-content:center;}
+.tabata-controls button{padding:10px 24px;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;}
+.tabata-start{background:var(--green);color:#fff;}
+.tabata-stop{background:var(--red);color:#fff;}
+.tabata-reset{background:var(--border);color:var(--text);}
+
+/* ===== NUTRITION ===== */
+.nutri-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:12px;}
+.nutri-card h3{font-size:14px;margin-bottom:8px;}
+.nutri-card h3.prot{color:var(--accent);}
+.nutri-card h3.gluc{color:var(--orange);}
+.nutri-card h3.lip{color:var(--green);}
+.nutri-card p{font-size:13px;line-height:1.6;}
+.nutri-card ul{padding-left:18px;font-size:13px;line-height:1.8;}
+.nutri-card .meal-name{font-weight:600;color:var(--orange);}
+.plate-visual{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap;}
+.plate-item{flex:1;min-width:70px;text-align:center;padding:10px 6px;border-radius:10px;font-size:11px;font-weight:600;line-height:1.4;}
+.plate-prot{background:#1a2a3a;color:#4f9eff;}
+.plate-gluc{background:#2a2a1a;color:#f59e0b;}
+.plate-lip{background:#1a2a2a;color:#34d399;}
+.plate-leg{background:#1a2a1a;color:#6ee7b7;}
+
+/* ===== HISTORY ===== */
+.hist-entry{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px;margin-bottom:8px;}
+.hist-date{font-size:12px;color:var(--muted);}
+.hist-title{font-size:14px;font-weight:600;margin:4px 0;}
+.hist-stats{font-size:12px;color:var(--accent);}
+.hist-pct-bar{height:4px;background:var(--border);border-radius:2px;margin-top:6px;}
+.hist-pct-fill{height:100%;border-radius:2px;background:var(--accent);}
+.hist-delete{background:none;border:none;color:var(--red);font-size:11px;cursor:pointer;margin-top:6px;}
+.empty-state{text-align:center;padding:40px 20px;color:var(--muted);font-size:14px;line-height:1.6;}
+.section-title{font-size:16px;font-weight:700;margin-bottom:4px;}
+.section-sub{font-size:12px;color:var(--muted);margin-bottom:16px;}
+
+@media(min-width:768px){body{max-width:600px;margin:0 auto;}}
+</style>
+</head>
+<body>
+
+<!-- ============================== HOME ============================== -->
+<div class="screen active" id="screen-home">
+  <div class="home-header">
+    <h1>💪 Mon Programme</h1>
+    <p>Choisis ta séance et c'est parti</p>
+  </div>
+
+  <div class="session-pick" id="sessionPick">
+    <div class="pick-card" data-s="push" onclick="pickSession(this)">
+      <div class="pick-letter">A</div>
+      <div class="pick-name">PUSH</div>
+      <div class="pick-desc">Pecs · Épaules · Triceps<br>40-50 min</div>
+    </div>
+    <div class="pick-card" data-s="pull" onclick="pickSession(this)">
+      <div class="pick-letter">B</div>
+      <div class="pick-name">PULL</div>
+      <div class="pick-desc">Dos · Biceps<br>40-50 min</div>
+    </div>
+    <div class="pick-card" data-s="legs" onclick="pickSession(this)">
+      <div class="pick-letter">C</div>
+      <div class="pick-name">JAMBES + CORE</div>
+      <div class="pick-desc">Quadriceps · Ischios · Fessiers · Abdos<br>45-55 min</div>
+    </div>
+    <div class="pick-card" data-s="optional" onclick="pickSession(this)">
+      <div class="pick-letter">D</div>
+      <div class="pick-name">TABATA + ABDOS</div>
+      <div class="pick-desc">Cardio HIIT · Core · Bas du ventre<br>25-30 min</div>
+    </div>
+  </div>
+
+  <div class="start-row">
+    <input type="date" id="startDate">
+    <div class="weight-group">
+      <span>⚖️</span>
+      <input type="number" id="startWeight" step="0.1" placeholder="65.0">
+      <span>kg</span>
+    </div>
+  </div>
+  <button class="go-btn" id="goBtn" onclick="startSession()" disabled>Commencer la séance</button>
+
+  <div class="week-box">
+    <h3>📅 Planning type</h3>
+    <div class="week-grid">
+      <div class="week-day">Lun</div><div class="week-day">Mar</div><div class="week-day">Mer</div><div class="week-day">Jeu</div><div class="week-day">Ven</div><div class="week-day">Sam</div><div class="week-day">Dim</div>
+      <div class="week-val push">A<br>Push</div>
+      <div class="week-val padel">🎾<br>Padel</div>
+      <div class="week-val pull">B<br>Pull</div>
+      <div class="week-val rest">Repos</div>
+      <div class="week-val legs">C<br>Jambes</div>
+      <div class="week-val padel">🎾<br>Padel</div>
+      <div class="week-val opt">D<br>Option</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== SESSION ============================== -->
+<div class="screen" id="screen-session">
+  <div class="session-bar">
+    <button class="back-btn" onclick="goHome()">← Retour</button>
+    <div class="session-info">
+      <div class="s-name" id="sBarName"></div>
+      <div class="s-date" id="sBarDate"></div>
+    </div>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div id="sessionContent"></div>
+  <div class="session-actions">
+    <button class="save-btn primary" onclick="saveSession()">💾 Sauvegarder la séance</button>
+    <button class="save-btn secondary" onclick="resetSession()">🔄</button>
+  </div>
+</div>
+
+<!-- ============================== NUTRITION ============================== -->
+<div class="screen" id="screen-nutrition">
+  <div class="section-title">🍽 Nutrition</div>
+  <div class="section-sub">Comprendre · Manger mieux · Résultats</div>
+
+  <div class="nutri-card">
+    <h3 class="prot">🥩 PROTÉINES — tes briques à muscles</h3>
+    <p><strong>C'est quoi :</strong> ce qui construit et répare tes muscles. Sans protéines, tu peux t'entraîner tant que tu veux, tes muscles ne se développent pas.</p>
+    <p style="margin-top:8px"><strong>Où en trouver :</strong></p>
+    <ul>
+      <li>🍗 100g poulet = <strong>25g</strong> protéines</li>
+      <li>🥩 100g steak haché 5% = <strong>20g</strong></li>
+      <li>🐟 1 boîte de thon = <strong>25g</strong></li>
+      <li>🐟 100g saumon = <strong>20g</strong></li>
+      <li>🥚 3 oeufs = <strong>18g</strong></li>
+      <li>🥛 200g fromage blanc = <strong>16g</strong></li>
+      <li>🍤 100g crevettes = <strong>20g</strong></li>
+    </ul>
+    <p style="margin-top:8px;color:var(--accent);font-size:12px"><strong>Ton objectif : ~120g/jour</strong> = une source à chaque repas</p>
+  </div>
+
+  <div class="nutri-card">
+    <h3 class="gluc">🍚 GLUCIDES — ton essence</h3>
+    <p><strong>C'est quoi :</strong> le carburant de ton corps. C'est ce qui te donne l'énergie pour le padel, la muscu, et la vie. Sans glucides = pas d'énergie, séances plates.</p>
+    <p style="margin-top:8px"><strong>Où en trouver :</strong></p>
+    <ul>
+      <li>🍝 100g pâtes cuites = <strong>25g</strong> glucides</li>
+      <li>🍚 100g riz cuit = <strong>28g</strong></li>
+      <li>🥔 1 grosse patate = <strong>35g</strong></li>
+      <li>🥣 50g flocons d'avoine = <strong>30g</strong></li>
+      <li>🍌 1 banane = <strong>25g</strong></li>
+      <li>🍞 2 tranches pain complet = <strong>25g</strong></li>
+    </ul>
+    <p style="margin-top:8px"><strong>Bons glucides</strong> (lents, énergie longue) : riz, pâtes, patate, flocons, pain complet</p>
+    <p><strong>Mauvais glucides</strong> (rapides, pic puis crash) : sucre, gâteaux, bonbons, sodas</p>
+    <p style="margin-top:8px;color:var(--orange);font-size:12px"><strong>Ton objectif : ~250g/jour</strong> = un poing de féculent à chaque repas</p>
+  </div>
+
+  <div class="nutri-card">
+    <h3 class="lip">🥑 LIPIDES — tes hormones et ta santé</h3>
+    <p><strong>C'est quoi :</strong> les graisses. Mais BONNES graisses = essentielles. Elles fabriquent tes hormones (dont la testostérone qui t'aide à prendre du muscle), protègent tes organes, et aident à absorber les vitamines.</p>
+    <p style="margin-top:8px"><strong>Où en trouver :</strong></p>
+    <ul>
+      <li>🥑 1/2 avocat = <strong>15g</strong> lipides</li>
+      <li>🥜 une poignée d'amandes (20) = <strong>14g</strong></li>
+      <li>🫒 1 cuillère huile d'olive = <strong>14g</strong></li>
+      <li>🧀 30g fromage = <strong>10g</strong></li>
+      <li>🥚 1 jaune d'oeuf = <strong>5g</strong></li>
+      <li>🐟 100g saumon = <strong>12g</strong> (bonnes graisses oméga-3)</li>
+    </ul>
+    <p style="margin-top:8px"><strong>Bons lipides :</strong> amandes, huile d'olive, avocat, saumon, oeufs</p>
+    <p><strong>Mauvais lipides :</strong> friture, charcuterie, beurre en excès, fast food</p>
+    <p style="margin-top:8px;color:var(--green);font-size:12px"><strong>Ton objectif : ~65g/jour</strong> = un pouce de bon gras à chaque repas</p>
+  </div>
+
+  <div class="nutri-card">
+    <h3>🎯 Résumé visuel — la méthode de l'assiette</h3>
+    <p>À chaque repas, vise cette répartition :</p>
+    <div class="plate-visual">
+      <div class="plate-item plate-prot">🥩<br><strong>1/3</strong><br>PROTÉINE<br><small>paume de main</small></div>
+      <div class="plate-item plate-gluc">🍚<br><strong>1/3</strong><br>GLUCIDE<br><small>poing fermé</small></div>
+      <div class="plate-item plate-leg">🥗<br><strong>1/3</strong><br>LÉGUMES<br><small>remplis le reste</small></div>
+    </div>
+    <div class="plate-visual">
+      <div class="plate-item plate-lip">🥑 + <strong>1 pouce</strong> de BON GRAS<br><small>huile d'olive, amandes, avocat</small></div>
+    </div>
+  </div>
+
+  <div class="nutri-card">
+    <h3>☀️ MATIN — déjà bien ✅</h3>
+    <ul>
+      <li>3 oeufs (omelette) → <strong>18g prot</strong></li>
+      <li>200g fromage blanc 0% → <strong>16g prot</strong></li>
+      <li>50g flocons d'avoine → énergie</li>
+      <li>1 fruit + poignée d'amandes</li>
+      <li>Café</li>
+    </ul>
+    <p style="margin-top:6px;color:var(--green);font-size:12px">≈ 35-40g protéines · Parfait, ne change rien</p>
+  </div>
+
+  <div class="nutri-card">
+    <h3>🌤 MIDI — à améliorer ⚠️</h3>
+    <p><span class="meal-name">Le problème :</span> sandwich seul = souvent pas assez de protéines</p>
+    <ul style="margin-top:6px">
+      <li><strong>Si sandwich</strong> : poulet OU thon obligatoire (pas jambon seul)</li>
+      <li><strong>Si restaurant</strong> : viande/poisson + féculent + légumes</li>
+      <li><strong>Si maison rapide</strong> : boîte de thon + riz micro-ondes 2 min + tomates</li>
+      <li><strong>Si maison</strong> : steak haché + pâtes + légumes poêlés</li>
+    </ul>
+    <p style="margin-top:6px;color:var(--green);font-size:12px">Vise ≈ 35-40g protéines au midi</p>
+  </div>
+
+  <div class="nutri-card">
+    <h3>🌙 SOIR — bien, ajoute des légumes</h3>
+    <ul>
+      <li>Steak haché 5% + pâtes + courgettes poêlées</li>
+      <li>Saumon + riz + brocolis</li>
+      <li>Omelette 4 oeufs + patate + salade</li>
+      <li>Poulet + pâtes + sauce tomate</li>
+    </ul>
+    <p style="margin-top:6px;color:var(--green);font-size:12px">≈ 35-40g protéines · Total journée ≈ 110-120g ✅</p>
+  </div>
+
+  <div class="nutri-card">
+    <h3>✅ 4 règles simples</h3>
+    <ul>
+      <li><strong>1.</strong> Chaque repas = une protéine (viande, poisson, oeufs, fromage blanc)</li>
+      <li><strong>2.</strong> Mange assez (65 kg = déjà léger, ne descends pas)</li>
+      <li><strong>3.</strong> Légumes au midi + soir (même surgelés ça compte)</li>
+      <li><strong>4.</strong> Garde amandes + fromage blanc (tes bons lipides)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================== HISTORY ============================== -->
+<div class="screen" id="screen-history">
+  <div class="section-title">📋 Historique</div>
+  <div class="section-sub">Tes séances enregistrées</div>
+  <div id="historyList"></div>
+</div>
+
+<!-- ============================== BOTTOM NAV ============================== -->
+<div class="bottom-nav">
+  <button class="nav-btn active" data-screen="home" onclick="goScreen('home')">
+    <span class="nav-icon">🏠</span>Accueil
+  </button>
+  <button class="nav-btn" data-screen="nutrition" onclick="goScreen('nutrition')">
+    <span class="nav-icon">🍽</span>Nutrition
+  </button>
+  <button class="nav-btn" data-screen="history" onclick="goScreen('history')">
+    <span class="nav-icon">📋</span>Historique
+  </button>
+</div>
+
+<script>
+// ============ NAVIGATION ============
+let currentSession = null;
+function goScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.nav-btn[data-screen="${name}"]`)?.classList.add('active');
+  if (name === 'history') renderHistory();
+}
+function goHome() {
+  if (document.querySelectorAll('#screen-session .set-check:checked').length > 0) {
+    if (!confirm('Séance en cours. Sauvegarder avant de quitter ?')) {} else { saveSession(); }
+  }
+  goScreen('home');
+}
+
+// ============ SESSION PICK ============
+let pickedSession = null;
+document.getElementById('startDate').valueAsDate = new Date();
+function pickSession(el) {
+  document.querySelectorAll('.pick-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  pickedSession = el.dataset.s;
+  const btn = document.getElementById('goBtn');
+  btn.style.display = 'block';
+  btn.disabled = false;
+  const colors = {push:['var(--accent)','A · Push'],pull:['var(--green)','B · Pull'],legs:['var(--orange)','C · Jambes'],optional:['var(--purple)','D · Tabata + Abdos']};
+  btn.style.background = colors[pickedSession][0];
+  btn.textContent = '▶ Commencer ' + colors[pickedSession][1];
+}
+
+// ============ SESSION TEMPLATES ============
+const SESSIONS = {
+  push: {
+    name: 'A · PUSH', sub: 'Pecs · Épaules · Triceps — 40-50 min', color: 'var(--accent)',
+    exercises: [
+      {name:'Échauffement', tag:'ÉCHAUF.', tagClass:'warmup-tag', cardClass:'warmup', detail:'Corde à sauter 2 min + 10 pompes + rotations bras', sets:[
+        {label:'1',type:'time',placeholder:'2:00',unit:'min',noWeight:true},
+        {label:'2',type:'check',text:'Pompes + rotations',noWeight:true}
+      ], rest:0},
+      {name:'Développé couché — Barre', tag:'3 × 10', detail:'Banc plat · Descends au niveau des pecs · Expire en poussant', sets:3, reps:10, weight:true, rest:90},
+      {name:'Développé incliné — Haltères', tag:'3 × 10', detail:'Banc incliné ~30° · Cible le haut des pecs', sets:3, reps:10, weight:true, rest:90},
+      {name:'Développé épaules assis — Haltères', tag:'3 × 10', detail:'Banc à 90° · Pousse au-dessus de la tête', sets:3, reps:10, weight:true, rest:90},
+      {name:'Élévations latérales — Haltères', tag:'3 × 12', detail:'Bras légèrement pliés · Monte jusqu\'aux épaules · Léger (6-8 kg)', sets:3, reps:12, weight:true, rest:60},
+      {name:'Dips sur chaise', tag:'3 × 12', detail:'Mains derrière sur chaise · Descends coudes à 90°', note:'⚠️ Dos près de la chaise pour protéger les épaules', sets:3, reps:12, weight:false, rest:60},
+      {name:'Pompes finition', tag:'2 × max', detail:'Pompes classiques · Fais le max · Finis vidé', sets:2, reps:'max', weight:false, rest:60},
+    ]
+  },
+  pull: {
+    name: 'B · PULL', sub: 'Dos · Biceps — 40-50 min', color: 'var(--green)',
+    exercises: [
+      {name:'Échauffement', tag:'ÉCHAUF.', tagClass:'warmup-tag', cardClass:'warmup', detail:'Corde à sauter 2 min + 10 tirages élastique porte + rotations', sets:[
+        {label:'1',type:'time',placeholder:'2:00',unit:'min',noWeight:true},
+        {label:'2',type:'check',text:'Élastique + rotations',noWeight:true}
+      ], rest:0},
+      {name:'Rowing barre penché', tag:'3 × 10', detail:'Penché à 45° · Tire vers le nombril · Dos droit', note:'⚠️ Genoux pliés pour protéger le bas du dos', sets:3, reps:10, weight:true, rest:90},
+      {name:'Rowing un bras — Haltère/banc', tag:'3 × 10/bras', detail:'Un genou + une main sur banc · Tire vers la hanche', sets:3, reps:10, weight:true, rest:60},
+      {name:'Face pull — Élastique porte', tag:'3 × 15', detail:'Élastique en haut de la porte · Tire vers le visage · Coudes hauts', note:'💡 Noeud au-dessus de la porte fermée, côté opposé à toi', sets:3, reps:15, weight:false, rest:60},
+      {name:'Kettlebell Swing', tag:'3 × 15', detail:'Hanches qui poussent · Dos droit · Monte à hauteur poitrine', note:'⚠️ C\'est les HANCHES qui poussent, pas les bras', sets:3, reps:15, weight:true, rest:60},
+      {name:'Curl biceps — Barre', tag:'3 × 10', detail:'Debout · Coudes collés au corps · Monte lentement', sets:3, reps:10, weight:true, rest:60},
+      {name:'Curl marteau — Haltères', tag:'3 × 10', detail:'Paumes face à face · Avant-bras + biceps', sets:3, reps:10, weight:true, rest:60},
+    ]
+  },
+  legs: {
+    name: 'C · JAMBES + CORE', sub: 'Quadriceps · Ischios · Fessiers · Abdos — 45-55 min', color: 'var(--orange)',
+    exercises: [
+      {name:'Échauffement', tag:'ÉCHAUF.', tagClass:'warmup-tag', cardClass:'warmup', detail:'Corde à sauter 2 min + 10 squats corps + 10 fentes corps', sets:[
+        {label:'1',type:'time',placeholder:'2:00',unit:'min',noWeight:true},
+        {label:'2',type:'check',text:'Squats + fentes corps',noWeight:true}
+      ], rest:0},
+      {name:'Squat goblet — Kettlebell', tag:'3 × 12', detail:'Kettlebell contre la poitrine · Cuisses parallèles au sol', note:'💡 Genoux vers l\'extérieur · Talons au sol', sets:3, reps:12, weight:true, rest:90},
+      {name:'Fentes marchées — Haltères', tag:'3 × 10/jambe', detail:'Un haltère par main · Grand pas · Genou arrière frôle le sol', sets:3, reps:10, weight:true, rest:90},
+      {name:'Soulevé de terre roumain — Haltères', tag:'3 × 10', detail:'Haltères devant cuisses · Pousse fesses en arrière · Jambes quasi tendues', note:'⚠️ Dos droit ! Sens l\'étirement derrière les cuisses', sets:3, reps:10, weight:true, rest:90},
+      {name:'Hip thrust — Banc', tag:'3 × 12', detail:'Épaules sur banc · Poids sur les hanches · Pousse vers le plafond', sets:3, reps:12, weight:true, rest:60},
+      {name:'Roulette abdos', tag:'3 × 10', tagClass:'core-tag', cardClass:'core', detail:'À genoux · Roule lentement · Rentre le nombril', note:'⚠️ Ne cambre PAS le dos', sets:3, reps:10, weight:false, rest:60},
+      {name:'Planche', tag:'3 × 40s', tagClass:'core-tag', cardClass:'core', detail:'Avant-bras · Corps droit · Serre abdos + fessiers', isTime:true, sets:3, reps:'40', weight:false, rest:45},
+    ]
+  },
+  optional: {
+    name: 'D · TABATA + ABDOS', sub: 'Cardio HIIT · Core · Bas du ventre — 25-30 min', color: 'var(--purple)',
+    hasTabata: true,
+    exercises: [
+      {name:'TABATA — Corde à sauter', tag:'TABATA', tagClass:'tabata-tag', cardClass:'tabata',
+        detail:'8 rounds : 20s à fond / 10s repos = 4 min total\nAppuie sur START ci-dessous puis suis le timer.',
+        isTabata:true, sets:[], rest:0},
+      {name:'Roulette abdos', tag:'3 × 12', tagClass:'core-tag', cardClass:'core', detail:'À genoux · Lent et contrôlé', sets:3, reps:12, weight:false, rest:45},
+      {name:'Crunch inversé (BAS DU VENTRE)', tag:'3 × 15', tagClass:'core-tag', cardClass:'core', detail:'Allongé · Lève genoux vers poitrine · Décolle le bassin du sol', note:'🎯 Cible directement le BAS du ventre', sets:3, reps:15, weight:false, rest:45},
+      {name:'Dead bug', tag:'3 × 10/côté', tagClass:'core-tag', cardClass:'core', detail:'Allongé · Bras en l\'air · Descends bras G + jambe D en même temps', note:'💡 Excellent pour le bas du dos ET les abdos profonds', sets:3, reps:10, weight:false, rest:30},
+      {name:'Mountain climbers', tag:'3 × 20', tagClass:'core-tag', cardClass:'core', detail:'Position pompe · Ramène genoux vers poitrine en alternant · Rapide', sets:3, reps:20, weight:false, rest:30},
+      {name:'Planche', tag:'3 × 45s', tagClass:'core-tag', cardClass:'core', detail:'Avant-bras · Serre tout · Dernière ligne droite !', isTime:true, sets:3, reps:'45', weight:false, rest:30},
+      {name:'TABATA — Finition', tag:'TABATA', tagClass:'tabata-tag', cardClass:'tabata',
+        detail:'Encore 4 rounds (20s/10s) de corde à sauter\nOU squats jump si t\'es motivé. Appuie sur START.',
+        isTabata:true, tabataRounds:4, sets:[], rest:0},
+    ]
+  }
+};
+
+// ============ BUILD SESSION ============
+function startSession() {
+  if (!pickedSession) return;
+  currentSession = pickedSession;
+  const tmpl = SESSIONS[currentSession];
+  const date = document.getElementById('startDate').value;
+  const weight = document.getElementById('startWeight').value;
+
+  document.getElementById('sBarName').textContent = tmpl.name;
+  document.getElementById('sBarName').style.color = tmpl.color;
+  document.getElementById('sBarDate').textContent = formatDateFR(date) + (weight ? ` · ${weight} kg` : '');
+  document.getElementById('progressFill').style.background = tmpl.color;
+
+  const container = document.getElementById('sessionContent');
+  let html = `<div class="progression-note">📈 <strong>Progression</strong> : quand tu réussis toutes les séries facilement → ajoute 2 reps ou 1-2 kg.</div>`;
+
+  tmpl.exercises.forEach((ex, ei) => {
+    const cc = ex.cardClass || '';
+    html += `<div class="exercise-card ${cc}">`;
+    html += `<div class="ex-header"><span class="ex-name">${ex.name}</span><span class="ex-tag ${ex.tagClass||''}">${ex.tag}</span></div>`;
+    html += `<div class="ex-detail">${ex.detail.replace(/\n/g,'<br>')}</div>`;
+    if (ex.note) html += `<div class="ex-note">${ex.note}</div>`;
+
+    if (ex.isTabata) {
+      const rounds = ex.tabataRounds || 8;
+      html += buildTabataHTML(ei, rounds);
+    } else if (Array.isArray(ex.sets)) {
+      html += '<div class="sets-grid">';
+      ex.sets.forEach((s,si) => {
+        html += '<div class="set-row">';
+        html += `<span class="set-label">${s.label}</span>`;
+        html += `<input type="checkbox" class="set-check">`;
+        if (s.type === 'time') {
+          html += `<input type="text" class="set-input" placeholder="${s.placeholder}" style="width:60px"><span class="set-unit">${s.unit}</span>`;
+        } else if (s.text) {
+          html += `<span style="font-size:13px">${s.text}</span>`;
+        }
+        html += '</div>';
+      });
+      html += '</div>';
+    } else {
+      html += '<div class="sets-grid">';
+      for (let i = 1; i <= ex.sets; i++) {
+        html += '<div class="set-row">';
+        html += `<span class="set-label">S${i}</span>`;
+        html += `<input type="checkbox" class="set-check">`;
+        if (ex.weight) html += `<input type="number" class="set-input" placeholder="kg" step="0.5"><span class="set-unit">kg</span>`;
+        if (ex.isTime) {
+          html += `<input type="text" class="set-input" placeholder="${ex.reps}s" style="width:60px"><span class="set-unit">sec</span>`;
+        } else {
+          html += `<input type="number" class="set-input" placeholder="${ex.reps}" min="0"><span class="set-unit">reps</span>`;
+        }
+        html += '</div>';
+      }
+      html += '</div>';
+    }
+
+    if (ex.rest > 0) {
+      html += `<div class="rest-section"><button class="rest-btn" onclick="startRest(this,${ex.rest})">⏱ Repos ${formatTime(ex.rest)}</button><span class="rest-info">entre chaque série</span></div>`;
+    }
+    html += '</div>';
+  });
+  container.innerHTML = html;
+
+  // Track progress
+  container.addEventListener('change', updateProgress);
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-session').classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  window.scrollTo(0, 0);
+}
+
+function buildTabataHTML(id, rounds) {
+  return `<div class="tabata-timer-box" id="tabata-${id}">
+    <div class="tabata-sub">${rounds} rounds · 20s travail / 10s repos · ${rounds === 8 ? '4' : '2'} min total</div>
+    <div class="tabata-phase" id="tabata-phase-${id}">PRÊT ?</div>
+    <div class="tabata-display" id="tabata-display-${id}">0:20</div>
+    <div class="tabata-round" id="tabata-round-${id}">Round 1/${rounds}</div>
+    <div class="tabata-controls">
+      <button class="tabata-start" onclick="startTabata(${id},${rounds})">▶ START</button>
+      <button class="tabata-reset" onclick="resetTabata(${id},${rounds})">↺ Reset</button>
+    </div>
+  </div>`;
+}
+
+// ============ TABATA TIMER ============
+let tabataIntervals = {};
+function startTabata(id, totalRounds) {
+  if (tabataIntervals[id]) { clearInterval(tabataIntervals[id]); tabataIntervals[id] = null; }
+  let round = 1, isWork = true, seconds = 20;
+  const display = document.getElementById(`tabata-display-${id}`);
+  const phase = document.getElementById(`tabata-phase-${id}`);
+  const roundEl = document.getElementById(`tabata-round-${id}`);
+
+  function update() {
+    display.textContent = `0:${String(seconds).padStart(2,'0')}`;
+    display.className = 'tabata-display ' + (isWork ? 'work' : 'rest-phase');
+    phase.textContent = isWork ? '💪 TRAVAIL !' : '😮‍💨 REPOS';
+    phase.style.color = isWork ? 'var(--green)' : 'var(--red)';
+    roundEl.textContent = `Round ${round}/${totalRounds}`;
+  }
+  update();
+  if (navigator.vibrate) navigator.vibrate(200);
+
+  tabataIntervals[id] = setInterval(() => {
+    seconds--;
+    if (seconds < 0) {
+      if (isWork) { isWork = false; seconds = 10; }
+      else { round++; if (round > totalRounds) { clearInterval(tabataIntervals[id]); tabataIntervals[id] = null; phase.textContent = '✅ TERMINÉ !'; phase.style.color = 'var(--green)'; display.textContent = '🎉'; display.className = 'tabata-display'; if (navigator.vibrate) navigator.vibrate([200,100,200,100,200]); return; } isWork = true; seconds = 20; }
+      if (navigator.vibrate) navigator.vibrate(150);
+    }
+    update();
+  }, 1000);
+}
+function resetTabata(id, totalRounds) {
+  if (tabataIntervals[id]) { clearInterval(tabataIntervals[id]); tabataIntervals[id] = null; }
+  document.getElementById(`tabata-phase-${id}`).textContent = 'PRÊT ?';
+  document.getElementById(`tabata-phase-${id}`).style.color = '';
+  document.getElementById(`tabata-display-${id}`).textContent = '0:20';
+  document.getElementById(`tabata-display-${id}`).className = 'tabata-display';
+  document.getElementById(`tabata-round-${id}`).textContent = `Round 1/${totalRounds}`;
+}
+
+// ============ PROGRESS ============
+function updateProgress() {
+  const total = document.querySelectorAll('#screen-session .set-check').length;
+  const done = document.querySelectorAll('#screen-session .set-check:checked').length;
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+}
+
+// ============ REST TIMER ============
+let activeTimer = null;
+function startRest(btn, seconds) {
+  if (activeTimer) { clearInterval(activeTimer.interval); activeTimer.btn.classList.remove('running','done'); activeTimer.btn.textContent = activeTimer.original; }
+  let remaining = seconds;
+  const original = btn.textContent;
+  btn.classList.add('running');
+  btn.textContent = formatTime(remaining);
+  if (navigator.vibrate) navigator.vibrate(100);
+  activeTimer = { btn, original, interval: setInterval(() => {
+    remaining--;
+    btn.textContent = formatTime(remaining);
+    if (remaining <= 0) {
+      clearInterval(activeTimer.interval);
+      btn.classList.remove('running');
+      btn.classList.add('done');
+      btn.textContent = '✅ GO !';
+      if (navigator.vibrate) navigator.vibrate([200,100,200]);
+      setTimeout(() => { btn.classList.remove('done'); btn.textContent = original; }, 3000);
+      activeTimer = null;
+    }
+  }, 1000)};
+}
+function formatTime(s) { return Math.floor(s/60) + ':' + String(s%60).padStart(2,'0'); }
+
+// ============ SAVE ============
+function saveSession() {
+  const date = document.getElementById('startDate').value;
+  const weight = document.getElementById('startWeight').value;
+  const tmpl = SESSIONS[currentSession];
+  const checks = document.querySelectorAll('#screen-session .set-check');
+  const total = checks.length;
+  const done = document.querySelectorAll('#screen-session .set-check:checked').length;
+
+  const exercises = [];
+  document.querySelectorAll('#screen-session .exercise-card').forEach(card => {
+    const name = card.querySelector('.ex-name')?.textContent || '';
+    const sets = [];
+    card.querySelectorAll('.set-row').forEach(row => {
+      const check = row.querySelector('.set-check');
+      const inputs = row.querySelectorAll('.set-input');
+      sets.push({ done: check ? check.checked : false, values: Array.from(inputs).map(i => i.value) });
+    });
+    exercises.push({ name, sets });
+  });
+
+  const entry = {
+    date, bodyWeight: weight, session: currentSession, sessionName: tmpl.name,
+    exercises, completedSets: done, totalSets: total, savedAt: new Date().toISOString()
+  };
+  const history = JSON.parse(localStorage.getItem('gym-history') || '[]');
+  history.unshift(entry);
+  if (history.length > 200) history.pop();
+  localStorage.setItem('gym-history', JSON.stringify(history));
+
+  const btn = document.querySelector('.save-btn.primary');
+  btn.textContent = '✅ Sauvegardé !';
+  btn.style.background = 'var(--green)';
+  setTimeout(() => { btn.textContent = '💾 Sauvegarder la séance'; btn.style.background = ''; }, 2000);
+}
+
+function resetSession() {
+  document.querySelectorAll('#screen-session .set-check').forEach(c => c.checked = false);
+  document.querySelectorAll('#screen-session .set-input').forEach(i => i.value = '');
+  updateProgress();
+}
+
+// ============ HISTORY ============
+function renderHistory() {
+  const list = document.getElementById('historyList');
+  const history = JSON.parse(localStorage.getItem('gym-history') || '[]');
+  if (!history.length) { list.innerHTML = '<div class="empty-state">Aucune séance enregistrée.<br>Lance ta première séance depuis l\'accueil !</div>'; return; }
+  list.innerHTML = history.map((h, i) => {
+    const pct = h.totalSets > 0 ? Math.round(h.completedSets / h.totalSets * 100) : 0;
+    const w = h.bodyWeight ? ` · ${h.bodyWeight} kg` : '';
+    const color = {push:'var(--accent)',pull:'var(--green)',legs:'var(--orange)',optional:'var(--purple)'}[h.session] || 'var(--accent)';
+    return `<div class="hist-entry">
+      <div class="hist-date">${formatDateFR(h.date)}${w}</div>
+      <div class="hist-title" style="color:${color}">${h.sessionName||h.session}</div>
+      <div class="hist-stats">${h.completedSets}/${h.totalSets} séries · ${pct}%</div>
+      <div class="hist-pct-bar"><div class="hist-pct-fill" style="width:${pct}%;background:${color}"></div></div>
+      <button class="hist-delete" onclick="deleteHistory(${i})">Supprimer</button>
+    </div>`;
+  }).join('');
+}
+function deleteHistory(i) {
+  const h = JSON.parse(localStorage.getItem('gym-history') || '[]');
+  h.splice(i, 1);
+  localStorage.setItem('gym-history', JSON.stringify(h));
+  renderHistory();
+}
+
+function formatDateFR(d) {
+  if (!d) return '';
+  const [y,m,day] = d.split('-');
+  const days = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+  const dt = new Date(y, m-1, day);
+  return `${days[dt.getDay()]} ${day}/${m}/${y}`;
+}
+
+renderHistory();
+</script>
+</body>
+</html>
