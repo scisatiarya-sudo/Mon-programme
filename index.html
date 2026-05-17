@@ -2,695 +2,1264 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Mon Programme</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="FormLab">
+<title>FormLab</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #0f0f0f; --card: #1a1a1a; --card2: #222; --border: #2a2a2a;
-  --accent: #4f9eff; --green: #34d399; --orange: #f59e0b; --red: #ef4444;
-  --purple: #a78bfa; --text: #e5e5e5; --muted: #888; --radius: 14px;
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#f0f4f8;
+  --surface:#ffffff;
+  --surface2:#f5f7fa;
+  --surface3:#eef1f6;
+  --border:#e2e8f0;
+  --border2:#cbd5e1;
+  --text:#0f172a;
+  --text2:#475569;
+  --text3:#94a3b8;
+  --green:#16a34a;--green-bg:#f0fdf4;--green-border:#86efac;--green-dark:#15803d;
+  --blue:#2563eb;--blue-bg:#eff6ff;--blue-border:#93c5fd;
+  --orange:#d97706;--orange-bg:#fffbeb;--orange-border:#fcd34d;
+  --red:#dc2626;--red-bg:#fef2f2;--red-border:#fca5a5;
+  --purple:#7c3aed;--purple-bg:#f5f3ff;--purple-border:#c4b5fd;
+  --hiit:#e11d48;--hiit-bg:#fff1f2;--hiit-border:#fda4af;
+  --forge:#1d4ed8;--forge-bg:#eff6ff;--forge-border:#93c5fd;
+  --opt:#6d28d9;--opt-bg:#f5f3ff;--opt-border:#c4b5fd;
+  --padel:#0e7490;--padel-bg:#ecfeff;--padel-border:#67e8f9;
+  --radius:10px;--radius-lg:14px;--radius-xl:20px;
+  font-family:'DM Sans',sans-serif;
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-tap-highlight-color:transparent;}
-button{font-family:inherit;}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text)}
+.app{display:flex;flex-direction:column;height:100vh;height:100dvh;max-width:1100px;margin:0 auto}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:13px 16px 11px;flex-shrink:0;border-bottom:1px solid var(--border);background:var(--surface);box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.logo{font-size:19px;font-weight:700;letter-spacing:-0.5px;color:var(--text)}
+.logo span{color:var(--green)}
+.topbar-right{display:flex;gap:8px;align-items:center}
+.date-badge{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--text2);font-weight:500}
+.streak-badge{background:var(--orange-bg);border:1px solid var(--orange-border);border-radius:20px;padding:4px 10px;font-size:12px;color:var(--orange);font-weight:700;display:flex;align-items:center;gap:4px}
+.bottom-nav{display:flex;background:var(--surface);border-top:1px solid var(--border);flex-shrink:0;padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -1px 6px rgba(0,0,0,0.06)}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:9px 4px 7px;background:transparent;border:none;color:var(--text3);cursor:pointer;font-family:'DM Sans',sans-serif;gap:3px;transition:color 0.15s}
+.nav-btn i{font-size:21px}
+.nav-btn span{font-size:10px;font-weight:600;letter-spacing:0.2px}
+.nav-btn.active{color:var(--green)}
+.content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:16px}
+.panel{display:none}
+.panel.active{display:block}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;margin-bottom:12px;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
+.section-title{font-size:11px;font-weight:700;letter-spacing:0.8px;color:var(--text3);text-transform:uppercase;margin-bottom:12px}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+@media(min-width:700px){.stat-grid{grid-template-columns:repeat(4,1fr)}}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:13px 15px;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
+.stat-label{font-size:10px;color:var(--text3);margin-bottom:4px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
+.stat-value{font-size:24px;font-weight:700;line-height:1.1}
+.stat-unit{font-size:13px;color:var(--text3);font-weight:400}
+.stat-sub{font-size:11px;color:var(--text3);margin-top:4px}
+.pbar{background:var(--surface3);border-radius:4px;height:5px;margin-top:8px;overflow:hidden}
+.pbar-fill{height:100%;border-radius:4px}
+.tag{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:700;display:inline-flex;align-items:center;gap:3px}
+.tag-green{background:var(--green-bg);color:var(--green-dark);border:1px solid var(--green-border)}
+.tag-blue{background:var(--blue-bg);color:var(--blue);border:1px solid var(--blue-border)}
+.tag-orange{background:var(--orange-bg);color:var(--orange);border:1px solid var(--orange-border)}
+.tag-red{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
+.tag-purple{background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-border)}
+.tag-hiit{background:var(--hiit-bg);color:var(--hiit);border:1px solid var(--hiit-border)}
+.tag-forge{background:var(--forge-bg);color:var(--forge);border:1px solid var(--forge-border)}
+.tag-opt{background:var(--opt-bg);color:var(--opt);border:1px solid var(--opt-border)}
+.tag-padel{background:var(--padel-bg);color:var(--padel);border:1px solid var(--padel-border)}
+.alert{border-radius:var(--radius);padding:10px 13px;font-size:13px;display:flex;gap:8px;align-items:flex-start;margin-bottom:8px;line-height:1.4}
+.alert i{font-size:15px;flex-shrink:0;margin-top:1px}
+.alert-warning{background:var(--orange-bg);border:1px solid var(--orange-border);color:var(--orange)}
+.alert-info{background:var(--blue-bg);border:1px solid var(--blue-border);color:var(--blue)}
+.alert-success{background:var(--green-bg);border:1px solid var(--green-border);color:var(--green-dark)}
+.alert-danger{background:var(--red-bg);border:1px solid var(--red-border);color:var(--red)}
+.alert-purple{background:var(--purple-bg);border:1px solid var(--purple-border);color:var(--purple)}
+.btn{background:var(--surface);border:1.5px solid var(--border2);border-radius:10px;padding:10px 16px;color:var(--text2);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all 0.15s;-webkit-appearance:none}
+.btn:active{transform:scale(0.97);background:var(--surface2)}
+.btn-green{background:var(--green-bg);border-color:var(--green-border);color:var(--green-dark)}
+.btn-hiit{background:var(--hiit-bg);border-color:var(--hiit-border);color:var(--hiit)}
+.btn-forge{background:var(--forge-bg);border-color:var(--forge-border);color:var(--forge)}
+.btn-opt{background:var(--opt-bg);border-color:var(--opt-border);color:var(--opt)}
+.btn-red{background:var(--red-bg);border-color:var(--red-border);color:var(--red)}
+.btn-lg{padding:14px 20px;font-size:15px;border-radius:12px;width:100%;justify-content:center}
+.btn-icon{padding:8px;border-radius:9px;min-width:38px;min-height:38px;justify-content:center}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.seg-tabs{display:flex;gap:3px;background:var(--surface3);border-radius:var(--radius);padding:3px;margin-bottom:14px;border:1px solid var(--border)}
+.seg-tab{flex:1;padding:8px 4px;border:none;background:transparent;color:var(--text3);border-radius:8px;cursor:pointer;font-size:11px;font-weight:700;font-family:'DM Sans',sans-serif;transition:all 0.15s;letter-spacing:0.1px}
+.seg-tab.active{background:var(--surface);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,0.1)}
+.divider{height:1px;background:var(--border);margin:12px 0}
+.flex-between{display:flex;align-items:center;justify-content:space-between}
+.mt8{margin-top:8px}
+.mt12{margin-top:12px}
+.mb8{margin-bottom:8px}
+.mb12{margin-bottom:12px}
 
-/* ===== BOTTOM NAV ===== */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);display:flex;z-index:200;padding:6px 0 env(safe-area-inset-bottom,8px);}
-.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;background:none;border:none;color:var(--muted);font-size:10px;cursor:pointer;}
-.nav-btn.active{color:var(--accent);}
-.nav-btn .nav-icon{font-size:20px;}
+/* SEANCE SELECTOR */
+.seance-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.seance-card{border-radius:var(--radius-lg);padding:16px;cursor:pointer;border:2px solid var(--border);transition:all 0.15s;background:var(--surface);box-shadow:0 1px 4px rgba(0,0,0,0.05);text-align:left;-webkit-appearance:none;font-family:'DM Sans',sans-serif;width:100%}
+.seance-card:active{transform:scale(0.97)}
+.seance-card.sel-hiit{border-color:var(--hiit);background:var(--hiit-bg)}
+.seance-card.sel-forge{border-color:var(--forge);background:var(--forge-bg)}
+.seance-card.sel-opt{border-color:var(--opt);background:var(--opt-bg)}
+.seance-card.sel-padel{border-color:var(--padel);background:var(--padel-bg)}
+.sc-icon{font-size:28px;margin-bottom:5px}
+.sc-name{font-size:14px;font-weight:700;margin-bottom:3px}
+.sc-meta{font-size:11px;color:var(--text2);line-height:1.4}
 
-/* ===== SCREENS ===== */
-.screen{display:none;padding:16px 16px 90px;}
-.screen.active{display:block;}
+/* EX PICKER */
+.ex-pick-list{display:flex;flex-direction:column;gap:6px}
+.ex-pick-btn{background:var(--surface2);border:1.5px solid var(--border);border-radius:10px;padding:13px 14px;cursor:pointer;text-align:left;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:space-between;transition:all 0.15s;gap:10px;width:100%}
+.ex-pick-btn:active{transform:scale(0.98)}
+.ex-pick-btn.done{border-color:var(--green-border);background:var(--green-bg)}
+.ex-pick-name{font-size:14px;font-weight:600;color:var(--text)}
+.ex-pick-sub{display:flex;gap:8px;flex-wrap:wrap;margin-top:3px}
+.ex-pick-chip{font-size:11px;color:var(--text3);background:var(--surface3);border-radius:20px;padding:1px 8px;font-weight:500}
+.ex-pick-btn.done .ex-pick-name{color:var(--green-dark)}
 
-/* ===== HOME ===== */
-.home-header{text-align:center;padding:20px 0 24px;}
-.home-header h1{font-size:22px;margin-bottom:4px;}
-.home-header p{font-size:13px;color:var(--muted);}
-.new-session-btn{width:100%;padding:16px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius);font-size:16px;font-weight:700;cursor:pointer;margin-bottom:20px;}
-.session-pick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;}
-.pick-card{background:var(--card);border:2px solid var(--border);border-radius:var(--radius);padding:16px 12px;cursor:pointer;text-align:left;transition:border-color .2s;}
-.pick-card.selected{border-color:var(--accent);}
-.pick-card .pick-letter{font-size:24px;font-weight:800;margin-bottom:4px;}
-.pick-card .pick-name{font-size:13px;font-weight:600;margin-bottom:4px;}
-.pick-card .pick-desc{font-size:11px;color:var(--muted);line-height:1.4;}
-.pick-card[data-s="push"] .pick-letter{color:var(--accent);}
-.pick-card[data-s="pull"] .pick-letter{color:var(--green);}
-.pick-card[data-s="legs"] .pick-letter{color:var(--orange);}
-.pick-card[data-s="optional"] .pick-letter{color:var(--purple);}
-.pick-card[data-s="push"].selected{border-color:var(--accent);}
-.pick-card[data-s="pull"].selected{border-color:var(--green);}
-.pick-card[data-s="legs"].selected{border-color:var(--orange);}
-.pick-card[data-s="optional"].selected{border-color:var(--purple);}
-.start-row{display:flex;gap:10px;align-items:center;margin-bottom:12px;}
-.start-row input[type=date]{flex:1;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:14px;}
-.start-row .weight-group{display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 12px;}
-.start-row .weight-group input{background:none;border:none;color:var(--text);font-size:14px;width:50px;text-align:center;outline:none;}
-.start-row .weight-group span{color:var(--muted);font-size:13px;}
-.go-btn{width:100%;padding:14px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius);font-size:15px;font-weight:700;cursor:pointer;display:none;}
-.go-btn:disabled{opacity:.4;}
+/* SERIES LOGGER */
+.ex-header-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:15px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
+.ex-title{font-size:17px;font-weight:700;margin-bottom:2px}
+.ex-muscle-label{font-size:12px;color:var(--text3);font-weight:500}
+.coach-tip{background:var(--green-bg);border:1px solid var(--green-border);border-radius:9px;padding:10px 13px;font-size:12px;color:var(--green-dark);line-height:1.55;margin-top:10px;display:flex;gap:8px}
+.coach-tip i{font-size:15px;flex-shrink:0;margin-top:1px}
+.pr-banner{background:var(--orange-bg);border:1px solid var(--orange-border);border-radius:9px;padding:8px 12px;font-size:12px;color:var(--orange);margin-top:6px;display:flex;align-items:center;gap:6px;font-weight:600}
 
-/* week preview */
-.week-box{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px;margin-bottom:20px;}
-.week-box h3{font-size:13px;margin-bottom:8px;color:var(--muted);}
-.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;}
-.week-day{font-size:10px;color:var(--muted);padding:2px 0;}
-.week-val{font-size:10px;padding:6px 2px;border-radius:6px;background:var(--border);color:var(--text);line-height:1.2;}
-.week-val.push{background:#1a2a3a;color:var(--accent);}
-.week-val.pull{background:#1a2a2a;color:var(--green);}
-.week-val.legs{background:#2a2a1a;color:var(--orange);}
-.week-val.padel{background:#2a1a2a;color:#e879f9;}
-.week-val.rest{background:var(--card2);color:var(--muted);}
-.week-val.opt{background:#1a1a2a;color:var(--purple);}
+.series-wrapper{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}
+.serie-row{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px;display:grid;grid-template-columns:32px 1fr 1fr 44px;gap:10px;align-items:center;transition:all 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.serie-row.done-row{border-color:var(--green-border);background:var(--green-bg)}
+.serie-num{width:32px;height:32px;border-radius:50%;background:var(--surface3);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--text2);flex-shrink:0;border:1.5px solid var(--border)}
+.serie-row.done-row .serie-num{background:var(--green);color:#fff;border-color:var(--green)}
+.stepper-wrap{display:flex;flex-direction:column;gap:3px}
+.stepper-label{font-size:10px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
+.stepper{display:flex;align-items:center;background:var(--surface2);border-radius:9px;border:1.5px solid var(--border2);overflow:hidden}
+.step-btn{background:transparent;border:none;color:var(--text2);width:44px;height:44px;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;transition:background 0.1s;flex-shrink:0;-webkit-user-select:none;user-select:none;font-weight:500}
+.step-btn:active{background:var(--border);color:var(--text)}
+.step-val{flex:1;text-align:center;font-size:18px;font-weight:700;color:var(--text);font-family:'DM Mono',monospace;min-width:40px}
+.prev-val{font-size:10px;color:var(--text3);text-align:center;margin-top:2px;font-weight:500}
+.serie-done-btn{width:44px;height:44px;border-radius:10px;border:1.5px solid var(--border2);background:var(--surface2);color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:22px;transition:all 0.15s;flex-shrink:0}
+.serie-done-btn.done{background:var(--green);border-color:var(--green);color:#fff;box-shadow:0 2px 8px rgba(22,163,74,0.3)}
+.add-serie-btn{width:100%;background:transparent;border:1.5px dashed var(--border2);border-radius:9px;padding:11px;color:var(--text3);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:10px;transition:all 0.15s}
+.add-serie-btn:active{background:var(--surface3)}
 
-/* ===== SESSION (active workout) ===== */
-.session-bar{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;justify-content:space-between;}
-.session-bar .back-btn{background:none;border:none;color:var(--accent);font-size:14px;cursor:pointer;padding:4px 8px;}
-.session-bar .session-info{text-align:right;}
-.session-bar .session-info .s-name{font-size:14px;font-weight:700;}
-.session-bar .session-info .s-date{font-size:11px;color:var(--muted);}
-.progress-bar{height:3px;background:var(--border);margin:0 16px 0;}
-.progress-fill{height:100%;background:var(--accent);transition:width .3s;border-radius:2px;}
+/* TIMER */
+.timer-block{background:var(--surface);border:1.5px solid var(--orange-border);border-radius:var(--radius-lg);padding:14px 16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(217,119,6,0.1)}
+.timer-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.timer-label{font-size:11px;color:var(--orange);font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
+.timer-display{font-size:32px;font-weight:700;font-family:'DM Mono',monospace;color:var(--orange);line-height:1}
+.timer-progress{background:var(--orange-bg);border-radius:4px;height:6px;overflow:hidden;margin-bottom:10px}
+.timer-progress-fill{height:100%;background:var(--orange);border-radius:4px;transition:width 1s linear}
+.timer-btns{display:flex;gap:6px}
+.timer-btn{flex:1;background:var(--orange-bg);border:1px solid var(--orange-border);border-radius:8px;padding:8px;color:var(--orange);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;text-align:center;transition:all 0.15s}
+.timer-btn:active{background:var(--orange-border)}
+.timer-btn.stop{background:var(--red-bg);border-color:var(--red-border);color:var(--red)}
 
-.exercise-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin:12px 16px;}
-.exercise-card.warmup{border-left:3px solid var(--orange);}
-.exercise-card.core{border-left:3px solid var(--red);}
-.exercise-card.tabata{border-left:3px solid var(--purple);}
-.ex-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;}
-.ex-name{font-size:14px;font-weight:600;flex:1;}
-.ex-tag{font-size:10px;padding:2px 8px;border-radius:20px;background:var(--border);color:var(--muted);white-space:nowrap;flex-shrink:0;}
-.ex-tag.warmup-tag{background:#3b2a0a;color:var(--orange);}
-.ex-tag.core-tag{background:#3b0a0a;color:var(--red);}
-.ex-tag.tabata-tag{background:#2a1a3a;color:var(--purple);}
-.ex-detail{font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.5;}
-.ex-note{font-size:11px;color:var(--orange);margin-bottom:8px;font-style:italic;}
-.sets-grid{display:flex;flex-direction:column;gap:6px;}
-.set-row{display:flex;align-items:center;gap:6px;font-size:13px;}
-.set-label{width:26px;color:var(--muted);font-size:12px;flex-shrink:0;text-align:center;}
-.set-check{width:30px;height:30px;appearance:none;-webkit-appearance:none;border:2px solid var(--border);border-radius:8px;background:var(--bg);cursor:pointer;flex-shrink:0;position:relative;}
-.set-check:checked{background:var(--accent);border-color:var(--accent);}
-.set-check:checked::after{content:'✓';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-size:15px;font-weight:700;}
-.set-input{width:52px;background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:8px;padding:7px 4px;font-size:13px;text-align:center;}
-.set-input:focus{border-color:var(--accent);outline:none;}
-.set-unit{font-size:11px;color:var(--muted);width:26px;flex-shrink:0;}
-.rest-section{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;}
-.rest-btn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;min-width:110px;text-align:center;}
-.rest-btn.running{background:var(--orange);animation:pulse 1s infinite alternate;}
-.rest-btn.done{background:var(--green);}
-@keyframes pulse{from{opacity:.8}to{opacity:1}}
-.rest-info{font-size:12px;color:var(--muted);}
+/* HISTORY */
+.history-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px;margin-bottom:9px;box-shadow:0 1px 4px rgba(0,0,0,0.05)}
+.history-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.history-date{font-size:13px;font-weight:700}
+.history-ex{padding:7px 0;border-bottom:1px solid var(--border)}
+.history-ex:last-child{border-bottom:none}
+.history-ex-name{font-size:13px;font-weight:600;margin-bottom:5px}
+.chips{display:flex;gap:5px;flex-wrap:wrap}
+.chip{background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:4px 10px;font-size:12px;font-family:'DM Mono',monospace;color:var(--text2);font-weight:500}
+.chip.pr{background:var(--orange-bg);color:var(--orange);border-color:var(--orange-border)}
 
-.session-actions{padding:16px;display:flex;gap:10px;}
-.save-btn{flex:1;padding:14px;border:none;border-radius:var(--radius);font-size:14px;font-weight:700;cursor:pointer;}
-.save-btn.primary{background:var(--accent);color:#fff;}
-.save-btn.secondary{background:var(--border);color:var(--text);}
-.progression-note{background:#1a2a1a;border:1px solid #2a3a2a;border-radius:var(--radius);padding:12px;margin:12px 16px;font-size:12px;color:var(--green);line-height:1.5;}
+/* PROGRAMME */
+.prog-ex-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:8px;box-shadow:0 1px 3px rgba(0,0,0,0.04)}
+.prog-ex-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;cursor:pointer}
+.prog-ex-name{font-size:14px;font-weight:700;margin-bottom:5px}
+.prog-ex-meta{display:flex;gap:8px;flex-wrap:wrap}
+.prog-ex-meta-item{display:flex;align-items:center;gap:3px;font-size:12px;color:var(--text2);font-weight:500}
+.prog-ex-meta-item i{font-size:13px;color:var(--text3)}
+.prog-ex-body{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.prog-ex-body.open{display:block}
+.explain-block{margin-bottom:10px}
+.explain-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--text3);margin-bottom:4px}
+.explain-text{font-size:13px;color:var(--text2);line-height:1.6}
+.padel-link-box{background:var(--padel-bg);border:1px solid var(--padel-border);border-radius:8px;padding:9px 11px;font-size:12px;color:var(--padel);display:flex;gap:7px;align-items:flex-start;margin-top:6px}
+.rest-box{display:inline-flex;align-items:center;gap:5px;background:var(--orange-bg);border:1px solid var(--orange-border);border-radius:20px;padding:4px 10px;font-size:12px;color:var(--orange);font-weight:700;margin-top:8px}
 
-/* Tabata timer */
-.tabata-timer-box{background:var(--card);border:2px solid var(--purple);border-radius:var(--radius);padding:20px;margin:12px 16px;text-align:center;}
-.tabata-timer-box h3{font-size:14px;color:var(--purple);margin-bottom:4px;}
-.tabata-timer-box .tabata-sub{font-size:11px;color:var(--muted);margin-bottom:16px;}
-.tabata-display{font-size:56px;font-weight:800;font-variant-numeric:tabular-nums;margin:8px 0;}
-.tabata-display.work{color:var(--green);}
-.tabata-display.rest-phase{color:var(--red);}
-.tabata-phase{font-size:16px;font-weight:700;margin-bottom:4px;}
-.tabata-round{font-size:13px;color:var(--muted);margin-bottom:16px;}
-.tabata-controls{display:flex;gap:10px;justify-content:center;}
-.tabata-controls button{padding:10px 24px;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;}
-.tabata-start{background:var(--green);color:#fff;}
-.tabata-stop{background:var(--red);color:#fff;}
-.tabata-reset{background:var(--border);color:var(--text);}
+/* NUTRITION */
+.macro-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
+.macro-row:last-child{border-bottom:none}
+.macro-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.macro-name{font-size:14px;font-weight:600;flex:1}
+.macro-val{font-size:14px;font-weight:700;font-family:'DM Mono',monospace}
+.meal-block{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:8px}
+.meal-time{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;margin-bottom:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px}
+.meal-name{font-size:13px;margin-bottom:7px;line-height:1.5;color:var(--text2);font-weight:500}
+.meal-tags{display:flex;gap:5px;flex-wrap:wrap}
 
-/* ===== NUTRITION ===== */
-.nutri-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:12px;}
-.nutri-card h3{font-size:14px;margin-bottom:8px;}
-.nutri-card h3.prot{color:var(--accent);}
-.nutri-card h3.gluc{color:var(--orange);}
-.nutri-card h3.lip{color:var(--green);}
-.nutri-card p{font-size:13px;line-height:1.6;}
-.nutri-card ul{padding-left:18px;font-size:13px;line-height:1.8;}
-.nutri-card .meal-name{font-weight:600;color:var(--orange);}
-.plate-visual{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap;}
-.plate-item{flex:1;min-width:70px;text-align:center;padding:10px 6px;border-radius:10px;font-size:11px;font-weight:600;line-height:1.4;}
-.plate-prot{background:#1a2a3a;color:#4f9eff;}
-.plate-gluc{background:#2a2a1a;color:#f59e0b;}
-.plate-lip{background:#1a2a2a;color:#34d399;}
-.plate-leg{background:#1a2a1a;color:#6ee7b7;}
+/* PROGRESSION */
+.prog-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+@media(min-width:700px){.prog-form-grid{grid-template-columns:repeat(4,1fr)}}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-label{font-size:11px;color:var(--text2);font-weight:600}
+.form-input{background:var(--surface);border:1.5px solid var(--border2);border-radius:9px;padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;outline:none;-webkit-appearance:none;width:100%;transition:border-color 0.15s;font-weight:500}
+.form-input:focus{border-color:var(--blue)}
+.form-select{background:var(--surface);border:1.5px solid var(--border2);border-radius:9px;padding:11px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;-webkit-appearance:none;width:100%;font-weight:500}
+.prog-table{width:100%;font-size:12px;border-collapse:separate;border-spacing:0 5px}
+.prog-table th{font-size:10px;color:var(--text3);text-align:left;padding:0 10px 4px;text-transform:uppercase;letter-spacing:0.5px;font-weight:700}
+.prog-table td{padding:10px;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.prog-table td:first-child{border-radius:9px 0 0 9px;border-left:1px solid var(--border)}
+.prog-table td:last-child{border-radius:0 9px 9px 0;border-right:1px solid var(--border)}
 
-/* ===== HISTORY ===== */
-.hist-entry{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:12px;margin-bottom:8px;}
-.hist-date{font-size:12px;color:var(--muted);}
-.hist-title{font-size:14px;font-weight:600;margin:4px 0;}
-.hist-stats{font-size:12px;color:var(--accent);}
-.hist-pct-bar{height:4px;background:var(--border);border-radius:2px;margin-top:6px;}
-.hist-pct-fill{height:100%;border-radius:2px;background:var(--accent);}
-.hist-delete{background:none;border:none;color:var(--red);font-size:11px;cursor:pointer;margin-top:6px;}
-.empty-state{text-align:center;padding:40px 20px;color:var(--muted);font-size:14px;line-height:1.6;}
-.section-title{font-size:16px;font-weight:700;margin-bottom:4px;}
-.section-sub{font-size:12px;color:var(--muted);margin-bottom:16px;}
+/* COMPRENDRE */
+.gloss-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:580px){.gloss-grid{grid-template-columns:1fr}}
+.gloss-item{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:13px}
+.gloss-term{font-size:13px;font-weight:700;color:var(--green-dark);margin-bottom:5px}
+.gloss-def{font-size:12px;color:var(--text2);line-height:1.55}
+.gloss-padel{border-left:3px solid var(--padel)}
+.body-box{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:13px;margin-bottom:8px}
+.body-box-title{font-size:13px;font-weight:700;color:var(--purple);margin-bottom:5px;display:flex;align-items:center;gap:7px}
+.body-box-body{font-size:12px;color:var(--text2);line-height:1.55}
+.body-box-why{font-size:11px;color:var(--text3);margin-top:7px;padding-top:7px;border-top:1px solid var(--border);font-style:italic}
 
-@media(min-width:768px){body{max-width:600px;margin:0 auto;}}
+.step-row{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border)}
+.step-row:last-child{border-bottom:none}
+.step-num{width:26px;height:26px;border-radius:50%;background:var(--green-bg);border:1.5px solid var(--green-border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--green-dark);flex-shrink:0;margin-top:1px}
+.step-title{font-size:13px;font-weight:600;margin-bottom:3px}
+.step-desc{font-size:12px;color:var(--text2);line-height:1.45}
+
+.week-strip{display:flex;gap:5px;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px;margin-bottom:12px}
+.day-pill{flex-shrink:0;background:var(--surface);border:1.5px solid var(--border);border-radius:9px;padding:9px 7px;text-align:center;min-width:44px}
+.day-pill.done{background:var(--green-bg);border-color:var(--green-border)}
+.day-pill.padel{background:var(--padel-bg);border-color:var(--padel-border)}
+.day-pill.today{border-color:var(--text2);border-width:2px}
+.day-name{font-size:9px;color:var(--text3);font-weight:700;text-transform:uppercase;letter-spacing:0.3px}
+.day-type{font-size:10px;font-weight:700;margin-top:3px}
+
+.toast{position:fixed;bottom:85px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);border-radius:10px;padding:10px 18px;font-size:13px;color:#fff;opacity:0;transition:all 0.25s;pointer-events:none;z-index:9999;white-space:nowrap;font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,0.2)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.empty-state{text-align:center;padding:40px 20px;color:var(--text3)}
+.empty-state i{font-size:40px;display:block;margin-bottom:12px;opacity:0.5}
+.empty-state p{font-size:13px;line-height:1.6}
 </style>
 </head>
 <body>
-
-<!-- ============================== HOME ============================== -->
-<div class="screen active" id="screen-home">
-  <div class="home-header">
-    <h1>💪 Mon Programme</h1>
-    <p>Choisis ta séance et c'est parti</p>
-  </div>
-
-  <div class="session-pick" id="sessionPick">
-    <div class="pick-card" data-s="push" onclick="pickSession(this)">
-      <div class="pick-letter">A</div>
-      <div class="pick-name">PUSH</div>
-      <div class="pick-desc">Pecs · Épaules · Triceps<br>40-50 min</div>
-    </div>
-    <div class="pick-card" data-s="pull" onclick="pickSession(this)">
-      <div class="pick-letter">B</div>
-      <div class="pick-name">PULL</div>
-      <div class="pick-desc">Dos · Biceps<br>40-50 min</div>
-    </div>
-    <div class="pick-card" data-s="legs" onclick="pickSession(this)">
-      <div class="pick-letter">C</div>
-      <div class="pick-name">JAMBES + CORE</div>
-      <div class="pick-desc">Quadriceps · Ischios · Fessiers · Abdos<br>45-55 min</div>
-    </div>
-    <div class="pick-card" data-s="optional" onclick="pickSession(this)">
-      <div class="pick-letter">D</div>
-      <div class="pick-name">TABATA + ABDOS</div>
-      <div class="pick-desc">Cardio HIIT · Core · Bas du ventre<br>25-30 min</div>
+<div class="app">
+  <div class="topbar">
+    <div class="logo">FORM<span>LAB</span></div>
+    <div class="topbar-right">
+      <div class="date-badge" id="dateDisplay"></div>
+      <div class="streak-badge"><i class="ti ti-flame"></i><span id="streakCount">0</span> séances</div>
     </div>
   </div>
 
-  <div class="start-row">
-    <input type="date" id="startDate">
-    <div class="weight-group">
-      <span>⚖️</span>
-      <input type="number" id="startWeight" step="0.1" placeholder="65.0">
-      <span>kg</span>
-    </div>
-  </div>
-  <button class="go-btn" id="goBtn" onclick="startSession()" disabled>Commencer la séance</button>
+  <div class="content" id="mainContent">
 
-  <div class="week-box">
-    <h3>📅 Planning type</h3>
-    <div class="week-grid">
-      <div class="week-day">Lun</div><div class="week-day">Mar</div><div class="week-day">Mer</div><div class="week-day">Jeu</div><div class="week-day">Ven</div><div class="week-day">Sam</div><div class="week-day">Dim</div>
-      <div class="week-val push">A<br>Push</div>
-      <div class="week-val padel">🎾<br>Padel</div>
-      <div class="week-val pull">B<br>Pull</div>
-      <div class="week-val rest">Repos</div>
-      <div class="week-val legs">C<br>Jambes</div>
-      <div class="week-val padel">🎾<br>Padel</div>
-      <div class="week-val opt">D<br>Option</div>
+    <!-- DASHBOARD -->
+    <div id="panel-dashboard" class="panel active">
+      <div class="alert alert-success mb8"><i class="ti ti-info-circle"></i><span id="todayMsg">Chargement...</span></div>
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-label">Poids</div>
+          <div class="stat-value" style="color:var(--purple)" id="dashPoids">— <span class="stat-unit">kg</span></div>
+          <div class="stat-sub" id="dashPoidsEvo">Mesure le lundi matin</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Tour de taille</div>
+          <div class="stat-value" style="color:var(--orange)" id="dashTaille">— <span class="stat-unit">cm</span></div>
+          <div class="stat-sub">Objectif : baisser</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Séances ce mois</div>
+          <div class="stat-value" style="color:var(--green)" id="dashSeances">0</div>
+          <div class="stat-sub">Muscu + Padel</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Protéines / jour</div>
+          <div class="stat-value" style="color:var(--blue)">145 <span class="stat-unit">g</span></div>
+          <div class="pbar"><div class="pbar-fill" style="background:var(--blue);width:60%"></div></div>
+          <div class="stat-sub">objectif fixe</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">Semaine type</div>
+        <div class="week-strip" id="weekStrip"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div style="background:var(--hiit-bg);border:1px solid var(--hiit-border);border-radius:var(--radius);padding:10px 12px">
+            <div style="font-size:12px;font-weight:700;color:var(--hiit);margin-bottom:3px">🔥 HIIT — Je me fracasse</div>
+            <div style="font-size:11px;color:var(--text2)">Circuit explosif · 25-30 min</div>
+          </div>
+          <div style="background:var(--forge-bg);border:1px solid var(--forge-border);border-radius:var(--radius);padding:10px 12px">
+            <div style="font-size:12px;font-weight:700;color:var(--forge);margin-bottom:3px">⚒ FORGE A & B</div>
+            <div style="font-size:11px;color:var(--text2)">Force progressive · 40-50 min</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">Ce que tu construis</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.65">
+          À 65 kg / 1m73, ton objectif n'est <strong style="color:var(--text)">pas de maigrir</strong> — c'est de <strong style="color:var(--text)">recomposer</strong> : perdre du gras viscéral (ventre) et gagner du muscle simultanément. La clé : 145g de protéines par jour + surcharge progressive à chaque séance. Le ventre répond en dernier — c'est biologique, pas une question de programme.
+        </div>
+        <div style="margin-top:10px;background:var(--surface2);border-radius:8px;padding:10px 12px;font-size:12px;color:var(--text3);border-left:3px solid var(--padel)">
+          🎾 <strong style="color:var(--text2)">Lien padel :</strong> Ton dos qui souffre = rotateurs de hanche et lombaires trop faibles. Les séances Forge B corrigent ça directement via Hip hinge et Good morning.
+        </div>
+      </div>
+
+      <div class="card" style="border-color:var(--hiit-border);background:var(--hiit-bg)">
+        <div style="font-size:13px;font-weight:700;color:var(--hiit);margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="ti ti-bolt"></i> Mode débordé — 20 min chrono</div>
+        <div style="font-size:12px;color:var(--text2);display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--red-border)"><span>Pompes → Squat gobelet → Planche</span><span style="font-family:'DM Mono',monospace;color:var(--text3)">3 rounds</span></div>
+        <div style="font-size:12px;color:var(--text2);display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--red-border)"><span>10 pompes · 15 squats · 30s planche</span><span style="font-family:'DM Mono',monospace;color:var(--text3)">45s repos</span></div>
+        <div style="font-size:12px;color:var(--text2);display:flex;justify-content:space-between;padding:6px 0"><span>Finisher : Roulette abdos 3×8</span><span style="font-family:'DM Mono',monospace;color:var(--text3)">30s repos</span></div>
+      </div>
     </div>
+
+    <!-- LOG -->
+    <div id="panel-log" class="panel">
+      <div class="seg-tabs">
+        <button class="seg-tab active" onclick="showLogTab('new',this)">Nouvelle séance</button>
+        <button class="seg-tab" onclick="showLogTab('history',this)">Historique</button>
+      </div>
+
+      <div id="logTab-new">
+        <div class="card" id="stepType">
+          <div class="section-title">1. Choisis ta séance</div>
+          <div class="seance-grid">
+            <button class="seance-card" onclick="selectType('HIIT',this)">
+              <div class="sc-icon">🔥</div>
+              <div class="sc-name" style="color:var(--hiit)">HIIT</div>
+              <div class="sc-meta">Circuit explosif<br>25-30 min · Vide la tête</div>
+            </button>
+            <button class="seance-card" onclick="selectType('FORGE_A',this)">
+              <div class="sc-icon">⚒</div>
+              <div class="sc-name" style="color:var(--forge)">Forge A</div>
+              <div class="sc-meta">Pecs · Triceps · Épaules<br>40-50 min · Charges lourdes</div>
+            </button>
+            <button class="seance-card" onclick="selectType('FORGE_B',this)">
+              <div class="sc-icon">💪</div>
+              <div class="sc-name" style="color:var(--forge)">Forge B</div>
+              <div class="sc-meta">Dos · Biceps · Ischio · Fessiers<br>40-50 min · Chaîne postérieure</div>
+            </button>
+            <button class="seance-card" onclick="selectType('FORGE_C',this)">
+              <div class="sc-icon">✨</div>
+              <div class="sc-name" style="color:var(--opt)">Forge C</div>
+              <div class="sc-meta">Épaules complet · Gainage · Abdos<br>30 min · Optionnelle</div>
+            </button>
+          </div>
+          <div id="typeAlert" style="display:none"></div>
+        </div>
+
+        <div class="card" id="stepEx" style="display:none">
+          <div class="flex-between mb8">
+            <div>
+              <div class="section-title" style="margin-bottom:0">2. Exercice à logger</div>
+              <div style="font-size:11px;color:var(--text3);margin-top:2px;font-weight:600" id="seanceLabel"></div>
+            </div>
+            <button class="btn btn-icon btn-red" onclick="resetLog()"><i class="ti ti-x"></i></button>
+          </div>
+          <div id="exPickList" class="ex-pick-list"></div>
+        </div>
+
+        <div id="stepSeries" style="display:none">
+          <div class="ex-header-box">
+            <div class="flex-between">
+              <div style="flex:1">
+                <div class="ex-title" id="currentExName">—</div>
+                <div class="ex-muscle-label" id="currentExMuscle"></div>
+              </div>
+              <button class="btn btn-icon" onclick="backToExPick()"><i class="ti ti-chevron-left"></i></button>
+            </div>
+            <div class="coach-tip" id="currentExTip"><i class="ti ti-message-circle"></i><span></span></div>
+            <div class="pr-banner" id="prBanner" style="display:none"><i class="ti ti-trophy"></i><span></span></div>
+          </div>
+
+          <div class="series-wrapper" id="seriesContainer"></div>
+          <button class="add-serie-btn" onclick="addSerie()"><i class="ti ti-plus"></i> Ajouter une série</button>
+
+          <div class="timer-block" id="timerBlock" style="display:none">
+            <div class="timer-top">
+              <div class="timer-label"><i class="ti ti-clock" style="font-size:12px"></i> Repos en cours</div>
+              <div class="timer-display" id="timerDisp">1:15</div>
+            </div>
+            <div class="timer-progress"><div class="timer-progress-fill" id="timerFill" style="width:100%"></div></div>
+            <div class="timer-btns">
+              <button class="timer-btn" onclick="setTimer(30)">30s</button>
+              <button class="timer-btn" onclick="setTimer(45)">45s</button>
+              <button class="timer-btn" onclick="setTimer(60)">60s</button>
+              <button class="timer-btn" onclick="setTimer(75)">75s</button>
+              <button class="timer-btn stop" onclick="stopTimer()"><i class="ti ti-player-stop"></i></button>
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn btn-green" style="flex:1" onclick="validateEx()"><i class="ti ti-check"></i> Valider cet exercice</button>
+            <button class="btn" onclick="backToExPick()"><i class="ti ti-arrow-left"></i></button>
+          </div>
+        </div>
+
+        <div class="card mt8" id="sessionCard" style="display:none">
+          <div class="flex-between mb8">
+            <div class="section-title" style="margin-bottom:0">Séance en cours</div>
+            <span id="sessionTag" class="tag"></span>
+          </div>
+          <div id="sessionBody"></div>
+          <div class="divider"></div>
+          <button class="btn btn-green btn-lg" onclick="finishSession()"><i class="ti ti-device-floppy"></i> Terminer & sauvegarder</button>
+        </div>
+      </div>
+
+      <div id="logTab-history" style="display:none">
+        <div id="historyList"></div>
+      </div>
+    </div>
+
+    <!-- PROGRAMME -->
+    <div id="panel-programme" class="panel">
+      <div class="seg-tabs">
+        <button class="seg-tab active" onclick="showProgTab('hiit',this)">🔥 HIIT</button>
+        <button class="seg-tab" onclick="showProgTab('forge_a',this)">⚒ Forge A</button>
+        <button class="seg-tab" onclick="showProgTab('forge_b',this)">💪 Forge B</button>
+        <button class="seg-tab" onclick="showProgTab('forge_c',this)">✨ Forge C</button>
+        <button class="seg-tab" onclick="showProgTab('surcharge',this)">📈 Prog.</button>
+      </div>
+      <div id="progContent"></div>
+    </div>
+
+    <!-- NUTRITION -->
+    <div id="panel-nutrition" class="panel">
+      <div class="card mb8">
+        <div class="flex-between mb8">
+          <div class="section-title" style="margin-bottom:0">Objectifs du jour</div>
+          <select class="form-select" style="width:auto;padding:5px 10px;font-size:12px" onchange="updateNutri(this.value)">
+            <option value="normal">Jour normal</option>
+            <option value="padel">Jour padel</option>
+            <option value="repos">Jour repos</option>
+          </select>
+        </div>
+        <div class="macro-row"><div class="macro-dot" style="background:var(--blue)"></div><span class="macro-name">Calories <span style="font-size:11px;color:var(--text3);font-weight:400">— énergie totale</span></span><span class="macro-val" style="color:var(--blue)" id="nCal">1 900 kcal</span></div>
+        <div class="macro-row"><div class="macro-dot" style="background:var(--green)"></div><span class="macro-name">Protéines <span style="font-size:11px;color:var(--text3);font-weight:400">— briques musculaires</span></span><span class="macro-val" style="color:var(--green)">145 g</span></div>
+        <div class="macro-row"><div class="macro-dot" style="background:var(--blue)"></div><span class="macro-name">Glucides <span style="font-size:11px;color:var(--text3);font-weight:400">— carburant muscles</span></span><span class="macro-val" style="color:var(--blue)" id="nGluc">170 g</span></div>
+        <div class="macro-row"><div class="macro-dot" style="background:var(--orange)"></div><span class="macro-name">Lipides <span style="font-size:11px;color:var(--text3);font-weight:400">— hormones & satiété</span></span><span class="macro-val" style="color:var(--orange)">65 g</span></div>
+      </div>
+      <div class="card mb8">
+        <div class="section-title">Règles non négociables</div>
+        <div class="alert alert-success"><i class="ti ti-check"></i><span><strong>Règle n°1 :</strong> Protéines à CHAQUE repas. Sans exception.</span></div>
+        <div class="alert alert-info"><i class="ti ti-droplet"></i><span>2L eau/jour · 2,5L les jours padel (tu transpires énormément)</span></div>
+        <div class="alert alert-warning"><i class="ti ti-building-store"></i><span>Restaurant : viande/poisson + légumes. Pas de sauce, pas de pain.</span></div>
+        <div class="alert alert-warning"><i class="ti ti-refresh"></i><span>Repas raté → reprends normalement au suivant. Zéro compensation.</span></div>
+      </div>
+      <div class="card">
+        <div class="section-title">Journée type complète</div>
+        <div class="meal-block">
+          <div class="meal-time">07h00 — Petit-déjeuner</div>
+          <div class="meal-name">3 œufs entiers · 150g fromage blanc 0% · 40g flocons d'avoine · 1 fruit · 20g amandes · café</div>
+          <div class="meal-tags"><span class="tag tag-green">P 40g</span><span class="tag tag-blue">G 55g</span><span class="tag tag-orange">L 20g</span><span class="tag tag-purple">560 kcal</span></div>
+        </div>
+        <div class="meal-block">
+          <div class="meal-time">12h30 — Déjeuner (après sport idéalement)</div>
+          <div class="meal-name">150g poulet/thon · 120g riz ou patate douce · légumes verts · filet huile d'olive</div>
+          <div class="meal-tags"><span class="tag tag-green">P 45g</span><span class="tag tag-blue">G 40g</span><span class="tag tag-orange">L 12g</span><span class="tag tag-purple">450 kcal</span></div>
+        </div>
+        <div class="meal-block">
+          <div class="meal-time">16h30 — Collation</div>
+          <div class="meal-name">200g fromage blanc 0% · 30g amandes OU 1 fruit + 2 œufs durs</div>
+          <div class="meal-tags"><span class="tag tag-green">P 30g</span><span class="tag tag-blue">G 15g</span><span class="tag tag-orange">L 15g</span><span class="tag tag-purple">310 kcal</span></div>
+        </div>
+        <div class="meal-block">
+          <div class="meal-time">20h00 — Dîner</div>
+          <div class="meal-name">150g poisson/viande maigre · légumes à volonté · 100g légumineuses OU 80g riz</div>
+          <div class="meal-tags"><span class="tag tag-green">P 40g</span><span class="tag tag-blue">G 35g</span><span class="tag tag-orange">L 10g</span><span class="tag tag-purple">390 kcal</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROGRESSION -->
+    <div id="panel-progression" class="panel">
+      <div class="card mb8">
+        <div class="section-title">Mesures hebdomadaires — lundi matin à jeun</div>
+        <div class="prog-form-grid">
+          <div class="form-group"><label class="form-label">Poids (kg)</label><input type="number" class="form-input" id="inPoids" placeholder="65.0" step="0.1" inputmode="decimal"></div>
+          <div class="form-group"><label class="form-label">Tour de taille (cm)</label><input type="number" class="form-input" id="inTaille" placeholder="79" inputmode="decimal"></div>
+          <div class="form-group"><label class="form-label">Tour de bras (cm)</label><input type="number" class="form-input" id="inBras" placeholder="32" inputmode="decimal"></div>
+          <div class="form-group"><label class="form-label">Énergie /5</label>
+            <select class="form-select" id="inEnergie">
+              <option value="5">5 — Optimal</option>
+              <option value="4">4 — Bien</option>
+              <option value="3" selected>3 — Moyen</option>
+              <option value="2">2 — Fatigué</option>
+              <option value="1">1 — Épuisé</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-green btn-lg" onclick="addProgress()"><i class="ti ti-plus"></i> Enregistrer la mesure</button>
+      </div>
+      <div class="card mb8">
+        <div class="section-title">Lire les résultats</div>
+        <div class="alert alert-success"><i class="ti ti-check"></i><span><strong>Excellent :</strong> Poids stable + tour taille ↓ + charges qui montent → recomposition en cours</span></div>
+        <div class="alert alert-warning"><i class="ti ti-minus"></i><span><strong>Neutre :</strong> Tout stable 3 semaines → revoir nutrition ou ajouter une série</span></div>
+        <div class="alert alert-danger"><i class="ti ti-alert-triangle"></i><span><strong>Alerte :</strong> Perfs en baisse + fatigue → semaine Deload obligatoire</span></div>
+      </div>
+      <div class="card">
+        <div class="flex-between mb8">
+          <div class="section-title" style="margin-bottom:0">Tableau de suivi</div>
+          <button class="btn btn-icon btn-red" onclick="clearProgress()"><i class="ti ti-trash"></i></button>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="prog-table" style="min-width:380px">
+            <thead><tr><th>Date</th><th>Poids</th><th>Taille</th><th>Bras</th><th>Énergie</th></tr></thead>
+            <tbody id="progLog"></tbody>
+          </table>
+        </div>
+        <div id="progEmpty" class="empty-state" style="display:none"><i class="ti ti-chart-line"></i><p>Aucune mesure encore.<br>Commence lundi matin, à jeun.</p></div>
+      </div>
+    </div>
+
+    <!-- COMPRENDRE -->
+    <div id="panel-comprendre" class="panel">
+      <div class="seg-tabs">
+        <button class="seg-tab active" onclick="showCompTab('corps',this)">Ton corps</button>
+        <button class="seg-tab" onclick="showCompTab('exos',this)">Exercices</button>
+        <button class="seg-tab" onclick="showCompTab('nutri',this)">Nutrition</button>
+      </div>
+      <div id="compContent"></div>
+    </div>
+
   </div>
+
+  <nav class="bottom-nav">
+    <button class="nav-btn active" onclick="showPanel('dashboard',this)"><i class="ti ti-layout-dashboard"></i><span>Accueil</span></button>
+    <button class="nav-btn" onclick="showPanel('log',this)"><i class="ti ti-pencil-plus"></i><span>Log</span></button>
+    <button class="nav-btn" onclick="showPanel('programme',this)"><i class="ti ti-barbell"></i><span>Programme</span></button>
+    <button class="nav-btn" onclick="showPanel('nutrition',this)"><i class="ti ti-salad"></i><span>Nutrition</span></button>
+    <button class="nav-btn" onclick="showPanel('progression',this)"><i class="ti ti-trending-up"></i><span>Progrès</span></button>
+    <button class="nav-btn" onclick="showPanel('comprendre',this)"><i class="ti ti-brain"></i><span>Comprendre</span></button>
+  </nav>
 </div>
-
-<!-- ============================== SESSION ============================== -->
-<div class="screen" id="screen-session">
-  <div class="session-bar">
-    <button class="back-btn" onclick="goHome()">← Retour</button>
-    <div class="session-info">
-      <div class="s-name" id="sBarName"></div>
-      <div class="s-date" id="sBarDate"></div>
-    </div>
-  </div>
-  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-  <div id="sessionContent"></div>
-  <div class="session-actions">
-    <button class="save-btn primary" onclick="saveSession()">💾 Sauvegarder la séance</button>
-    <button class="save-btn secondary" onclick="resetSession()">🔄</button>
-  </div>
-</div>
-
-<!-- ============================== NUTRITION ============================== -->
-<div class="screen" id="screen-nutrition">
-  <div class="section-title">🍽 Nutrition</div>
-  <div class="section-sub">Comprendre · Manger mieux · Résultats</div>
-
-  <div class="nutri-card">
-    <h3 class="prot">🥩 PROTÉINES — tes briques à muscles</h3>
-    <p><strong>C'est quoi :</strong> ce qui construit et répare tes muscles. Sans protéines, tu peux t'entraîner tant que tu veux, tes muscles ne se développent pas.</p>
-    <p style="margin-top:8px"><strong>Où en trouver :</strong></p>
-    <ul>
-      <li>🍗 100g poulet = <strong>25g</strong> protéines</li>
-      <li>🥩 100g steak haché 5% = <strong>20g</strong></li>
-      <li>🐟 1 boîte de thon = <strong>25g</strong></li>
-      <li>🐟 100g saumon = <strong>20g</strong></li>
-      <li>🥚 3 oeufs = <strong>18g</strong></li>
-      <li>🥛 200g fromage blanc = <strong>16g</strong></li>
-      <li>🍤 100g crevettes = <strong>20g</strong></li>
-    </ul>
-    <p style="margin-top:8px;color:var(--accent);font-size:12px"><strong>Ton objectif : ~120g/jour</strong> = une source à chaque repas</p>
-  </div>
-
-  <div class="nutri-card">
-    <h3 class="gluc">🍚 GLUCIDES — ton essence</h3>
-    <p><strong>C'est quoi :</strong> le carburant de ton corps. C'est ce qui te donne l'énergie pour le padel, la muscu, et la vie. Sans glucides = pas d'énergie, séances plates.</p>
-    <p style="margin-top:8px"><strong>Où en trouver :</strong></p>
-    <ul>
-      <li>🍝 100g pâtes cuites = <strong>25g</strong> glucides</li>
-      <li>🍚 100g riz cuit = <strong>28g</strong></li>
-      <li>🥔 1 grosse patate = <strong>35g</strong></li>
-      <li>🥣 50g flocons d'avoine = <strong>30g</strong></li>
-      <li>🍌 1 banane = <strong>25g</strong></li>
-      <li>🍞 2 tranches pain complet = <strong>25g</strong></li>
-    </ul>
-    <p style="margin-top:8px"><strong>Bons glucides</strong> (lents, énergie longue) : riz, pâtes, patate, flocons, pain complet</p>
-    <p><strong>Mauvais glucides</strong> (rapides, pic puis crash) : sucre, gâteaux, bonbons, sodas</p>
-    <p style="margin-top:8px;color:var(--orange);font-size:12px"><strong>Ton objectif : ~250g/jour</strong> = un poing de féculent à chaque repas</p>
-  </div>
-
-  <div class="nutri-card">
-    <h3 class="lip">🥑 LIPIDES — tes hormones et ta santé</h3>
-    <p><strong>C'est quoi :</strong> les graisses. Mais BONNES graisses = essentielles. Elles fabriquent tes hormones (dont la testostérone qui t'aide à prendre du muscle), protègent tes organes, et aident à absorber les vitamines.</p>
-    <p style="margin-top:8px"><strong>Où en trouver :</strong></p>
-    <ul>
-      <li>🥑 1/2 avocat = <strong>15g</strong> lipides</li>
-      <li>🥜 une poignée d'amandes (20) = <strong>14g</strong></li>
-      <li>🫒 1 cuillère huile d'olive = <strong>14g</strong></li>
-      <li>🧀 30g fromage = <strong>10g</strong></li>
-      <li>🥚 1 jaune d'oeuf = <strong>5g</strong></li>
-      <li>🐟 100g saumon = <strong>12g</strong> (bonnes graisses oméga-3)</li>
-    </ul>
-    <p style="margin-top:8px"><strong>Bons lipides :</strong> amandes, huile d'olive, avocat, saumon, oeufs</p>
-    <p><strong>Mauvais lipides :</strong> friture, charcuterie, beurre en excès, fast food</p>
-    <p style="margin-top:8px;color:var(--green);font-size:12px"><strong>Ton objectif : ~65g/jour</strong> = un pouce de bon gras à chaque repas</p>
-  </div>
-
-  <div class="nutri-card">
-    <h3>🎯 Résumé visuel — la méthode de l'assiette</h3>
-    <p>À chaque repas, vise cette répartition :</p>
-    <div class="plate-visual">
-      <div class="plate-item plate-prot">🥩<br><strong>1/3</strong><br>PROTÉINE<br><small>paume de main</small></div>
-      <div class="plate-item plate-gluc">🍚<br><strong>1/3</strong><br>GLUCIDE<br><small>poing fermé</small></div>
-      <div class="plate-item plate-leg">🥗<br><strong>1/3</strong><br>LÉGUMES<br><small>remplis le reste</small></div>
-    </div>
-    <div class="plate-visual">
-      <div class="plate-item plate-lip">🥑 + <strong>1 pouce</strong> de BON GRAS<br><small>huile d'olive, amandes, avocat</small></div>
-    </div>
-  </div>
-
-  <div class="nutri-card">
-    <h3>☀️ MATIN — déjà bien ✅</h3>
-    <ul>
-      <li>3 oeufs (omelette) → <strong>18g prot</strong></li>
-      <li>200g fromage blanc 0% → <strong>16g prot</strong></li>
-      <li>50g flocons d'avoine → énergie</li>
-      <li>1 fruit + poignée d'amandes</li>
-      <li>Café</li>
-    </ul>
-    <p style="margin-top:6px;color:var(--green);font-size:12px">≈ 35-40g protéines · Parfait, ne change rien</p>
-  </div>
-
-  <div class="nutri-card">
-    <h3>🌤 MIDI — à améliorer ⚠️</h3>
-    <p><span class="meal-name">Le problème :</span> sandwich seul = souvent pas assez de protéines</p>
-    <ul style="margin-top:6px">
-      <li><strong>Si sandwich</strong> : poulet OU thon obligatoire (pas jambon seul)</li>
-      <li><strong>Si restaurant</strong> : viande/poisson + féculent + légumes</li>
-      <li><strong>Si maison rapide</strong> : boîte de thon + riz micro-ondes 2 min + tomates</li>
-      <li><strong>Si maison</strong> : steak haché + pâtes + légumes poêlés</li>
-    </ul>
-    <p style="margin-top:6px;color:var(--green);font-size:12px">Vise ≈ 35-40g protéines au midi</p>
-  </div>
-
-  <div class="nutri-card">
-    <h3>🌙 SOIR — bien, ajoute des légumes</h3>
-    <ul>
-      <li>Steak haché 5% + pâtes + courgettes poêlées</li>
-      <li>Saumon + riz + brocolis</li>
-      <li>Omelette 4 oeufs + patate + salade</li>
-      <li>Poulet + pâtes + sauce tomate</li>
-    </ul>
-    <p style="margin-top:6px;color:var(--green);font-size:12px">≈ 35-40g protéines · Total journée ≈ 110-120g ✅</p>
-  </div>
-
-  <div class="nutri-card">
-    <h3>✅ 4 règles simples</h3>
-    <ul>
-      <li><strong>1.</strong> Chaque repas = une protéine (viande, poisson, oeufs, fromage blanc)</li>
-      <li><strong>2.</strong> Mange assez (65 kg = déjà léger, ne descends pas)</li>
-      <li><strong>3.</strong> Légumes au midi + soir (même surgelés ça compte)</li>
-      <li><strong>4.</strong> Garde amandes + fromage blanc (tes bons lipides)</li>
-    </ul>
-  </div>
-</div>
-
-<!-- ============================== HISTORY ============================== -->
-<div class="screen" id="screen-history">
-  <div class="section-title">📋 Historique</div>
-  <div class="section-sub">Tes séances enregistrées</div>
-  <div id="historyList"></div>
-</div>
-
-<!-- ============================== BOTTOM NAV ============================== -->
-<div class="bottom-nav">
-  <button class="nav-btn active" data-screen="home" onclick="goScreen('home')">
-    <span class="nav-icon">🏠</span>Accueil
-  </button>
-  <button class="nav-btn" data-screen="nutrition" onclick="goScreen('nutrition')">
-    <span class="nav-icon">🍽</span>Nutrition
-  </button>
-  <button class="nav-btn" data-screen="history" onclick="goScreen('history')">
-    <span class="nav-icon">📋</span>Historique
-  </button>
-</div>
+<div class="toast" id="toast"></div>
 
 <script>
-// ============ NAVIGATION ============
-let currentSession = null;
-function goScreen(name) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-' + name).classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.querySelector(`.nav-btn[data-screen="${name}"]`)?.classList.add('active');
-  if (name === 'history') renderHistory();
-}
-function goHome() {
-  if (document.querySelectorAll('#screen-session .set-check:checked').length > 0) {
-    if (!confirm('Séance en cours. Sauvegarder avant de quitter ?')) {} else { saveSession(); }
-  }
-  goScreen('home');
-}
+// ========== DONNÉES EXERCICES ==========
 
-// ============ SESSION PICK ============
-let pickedSession = null;
-document.getElementById('startDate').valueAsDate = new Date();
-function pickSession(el) {
-  document.querySelectorAll('.pick-card').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
-  pickedSession = el.dataset.s;
-  const btn = document.getElementById('goBtn');
-  btn.style.display = 'block';
-  btn.disabled = false;
-  const colors = {push:['var(--accent)','A · Push'],pull:['var(--green)','B · Pull'],legs:['var(--orange)','C · Jambes'],optional:['var(--purple)','D · Tabata + Abdos']};
-  btn.style.background = colors[pickedSession][0];
-  btn.textContent = '▶ Commencer ' + colors[pickedSession][1];
-}
+const EX = {
+  HIIT:[
+    {id:'h1',name:'Burpees modifiés (sans saut)',muscle:'Corps entier · Cardio explosif',sets:4,reps:'10',rest:30,
+     tip:'Depuis debout : mains au sol → position pompe → fais une pompe → reviens debout. SANS SAUT pour protéger la cheville. Enchaîne sans pause. L\'exercice qui fait le plus monter le cœur cardiaque avec ton matériel.',
+     padel:'Endurance en fin de match — le 3e set, tu seras encore là quand l\'adversaire fatigue.'},
+    {id:'h2',name:'KB Swing — balancé kettlebell',muscle:'Fessiers · Ischio-jambiers · Explosivité',sets:4,reps:'15',rest:30,
+     tip:'KB entre les jambes. Pousse les hanches EN ARRIÈRE (hip hinge). Puis propulse les hanches EN AVANT en contractant les fessiers pour envoyer le KB à hauteur d\'épaule. CE N\'EST PAS un exercice de bras — la force vient des hanches. Dos droit toujours.',
+     padel:'Puissance de frappe : l\'explosion des hanches est identique dans toutes tes frappes. L\'exercice le plus transférable au padel.'},
+    {id:'h3',name:'Mountain climbers — grimpeurs',muscle:'Abdos · Gainage · Cardio',sets:4,reps:'20 de chaque',rest:30,
+     tip:'En position pompe (bras tendus). Ramène les genoux vers la poitrine en alternance le plus vite possible. Hanches qui ne montent PAS. Corps en ligne droite. 20 de chaque côté = 1 série complète.',
+     padel:'Stabilité du tronc dans les positions basses et les déplacements rapides sur le court.'},
+    {id:'h4',name:'Pompes enchaînées — rythme soutenu',muscle:'Pectoraux · Triceps · Épaules',sets:4,reps:'15',rest:30,
+     tip:'Rythme constant, pas d\'arrêt en haut. Mains à largeur d\'épaules. Corps droit. Si tu t\'effondres sur la forme → passe aux genoux pour finir la série. L\'important c\'est le temps sous tension, pas l\'ego.',
+     padel:'Puissance dans les smash et les frappes au filet.'},
+    {id:'h5',name:'Squat gobelet KB — explosif',muscle:'Cuisses · Fessiers · Explosivité',sets:4,reps:'15',rest:30,
+     tip:'KB 12kg contre la poitrine à 2 mains. Descends vite, remonte EXPLOSIF en poussant fort dans le sol. Pieds à largeur d\'épaules, légèrement ouverts (30°). Garde la poitrine haute, genoux dans l\'axe des pieds.',
+     padel:'Explosivité sur les balles courtes au filet — réaction, fléchis vite, remonte vite.'},
+    {id:'h6',name:'Gainage dynamique — tap épaule',muscle:'Abdos profonds · Stabilité rotatoire',sets:3,reps:'20 taps',rest:30,
+     tip:'En position pompe (bras tendus). Touche l\'épaule gauche avec la main droite, et vice versa. Corps le plus immobile possible — surtout pas de rotation des hanches. Tes abdos empêchent la rotation. C\'est ce qu\'ils font pendant tes frappes.',
+     padel:'Stabilité du tronc lors des rotations de frappe — protège ton dos à chaque coup.'},
+    {id:'h7',name:'Roulette abdos — finisher',muscle:'Transverse · Abdos profonds · Gainage total',sets:3,reps:'8',rest:45,
+     tip:'À genoux. Tiens la roulette au sol devant toi. Roule lentement vers l\'avant en gardant le corps rigide. Arrête AVANT que le bas du dos ne s\'arque. Reviens en contractant les abdos. C\'est le meilleur exercice pour le ventre bas et le transverse.',
+     padel:'Ventre plat + gainage profond = protection lombaire maximale pendant le padel.'},
+  ],
 
-// ============ SESSION TEMPLATES ============
-const SESSIONS = {
-  push: {
-    name: 'A · PUSH', sub: 'Pecs · Épaules · Triceps — 40-50 min', color: 'var(--accent)',
-    exercises: [
-      {name:'Échauffement', tag:'ÉCHAUF.', tagClass:'warmup-tag', cardClass:'warmup', detail:'Corde à sauter 2 min + 10 pompes + rotations bras', sets:[
-        {label:'1',type:'time',placeholder:'2:00',unit:'min',noWeight:true},
-        {label:'2',type:'check',text:'Pompes + rotations',noWeight:true}
-      ], rest:0},
-      {name:'Développé couché — Barre', tag:'3 × 10', detail:'Banc plat · Descends au niveau des pecs · Expire en poussant', sets:3, reps:10, weight:true, rest:90},
-      {name:'Développé incliné — Haltères', tag:'3 × 10', detail:'Banc incliné ~30° · Cible le haut des pecs', sets:3, reps:10, weight:true, rest:90},
-      {name:'Développé épaules assis — Haltères', tag:'3 × 10', detail:'Banc à 90° · Pousse au-dessus de la tête', sets:3, reps:10, weight:true, rest:90},
-      {name:'Élévations latérales — Haltères', tag:'3 × 12', detail:'Bras légèrement pliés · Monte jusqu\'aux épaules · Léger (6-8 kg)', sets:3, reps:12, weight:true, rest:60},
-      {name:'Dips sur chaise', tag:'3 × 12', detail:'Mains derrière sur chaise · Descends coudes à 90°', note:'⚠️ Dos près de la chaise pour protéger les épaules', sets:3, reps:12, weight:false, rest:60},
-      {name:'Pompes finition', tag:'2 × max', detail:'Pompes classiques · Fais le max · Finis vidé', sets:2, reps:'max', weight:false, rest:60},
-    ]
+  FORGE_A:[
+    {id:'a1',name:'Développé couché barre — banc plat',muscle:'Pectoraux · Triceps · Épaules antérieures',sets:4,reps:'8–10',rest:75,
+     tip:'Allongé sur le banc PLAT. Barre tenue à largeur d\'épaules. Omoplates SERRÉES contre le banc avant de commencer — ça stabilise l\'épaule et protège l\'articulation. Descends lentement (2 secondes) jusqu\'à effleurer le torse. Repousse fort. Charge départ : 20–25 kg. Note la charge à chaque séance.',
+     padel:'Force de frappe frontale — tous tes coups droits et volées hautes.'},
+    {id:'a2',name:'Développé incliné haltères',muscle:'Pectoraux hauts · Épaules antérieures',sets:3,reps:'10–12',rest:60,
+     tip:'Banc à 30–45°. Un haltère dans chaque main à hauteur des épaules, paumes vers l\'avant. Pousse vers le haut en arc de cercle — les haltères se rapprochent légèrement en haut. Descends contrôlé (2 secondes). 2 × 8–10 kg. Zone ciblée : haut de la poitrine, visible sous un t-shirt.',
+     padel:'Puissance dans les smash en position haute — épaule plus robuste.'},
+    {id:'a3',name:'Écarté couché haltères',muscle:'Pectoraux (isolation) · Étirement pectoral',sets:3,reps:'12–15',rest:60,
+     tip:'Allongé sur le banc plat. Haltères tenus au-dessus de la poitrine, paumes face à face. Ouvre les bras en arc de cercle vers les côtés — légère flexion des coudes, jamais les bras tendus rigides. Sens l\'étirement dans la poitrine. Remonte. 2 × 8–10 kg. Charge LÉGÈRE : c\'est un exercice d\'isolation, pas de force.',
+     padel:'Mobilité et force de l\'épaule dans les gestes latéraux.'},
+    {id:'a4',name:'Extension triceps élastique',muscle:'Triceps (chef long et latéral)',sets:4,reps:'12–15',rest:60,
+     tip:'Fixe l\'élastique au-dessus de toi (porte, barre). Face à l\'élastique ou dos à lui selon la variante. Coudes FIXES le long du corps ou au-dessus de la tête. Étends les avant-bras vers le bas ou vers l\'avant. Contraction complète en fin de mouvement. Meilleur exercice triceps avec ton matériel car isole parfaitement.',
+     padel:'Triceps fort = finition des frappes plus nette, moins de fatigue du bras en fin de match.'},
+    {id:'a5',name:'Dips chaise — finisher triceps',muscle:'Triceps · Bas des pectoraux',sets:3,reps:'12–15',rest:45,
+     tip:'Mains posées sur la chaise derrière toi, jambes tendues. Coudes vont EN ARRIÈRE (jamais sur les côtés). Descends jusqu\'à 90°. Remonte. En finisher après les extensions élastique, les triceps sont déjà fatigués — c\'est voulu.',
+     padel:''},
+    {id:'a6',name:'Élévations latérales haltères',muscle:'Deltoïde médial (côté épaule)',sets:3,reps:'12–15',rest:60,
+     tip:'2–4 kg MAXIMUM. Bras légèrement fléchis. Lève latéralement jusqu\'à hauteur d\'épaule — JAMAIS plus haut (risque d\'accrochage sous-acromial). 2 secondes en haut, 3 secondes pour redescendre. Avec trop lourd tu compenses avec le trapèze et l\'exercice ne sert à rien.',
+     padel:'Épaule latérale plus forte = moins de blessure, frappes latérales plus précises.'},
+    {id:'a7',name:'Roulette abdos',muscle:'Transverse · Abdos profonds · Gainage total',sets:3,reps:'8–12',rest:60,
+     tip:'À genoux. Roule vers l\'avant, corps rigide. Arrête AVANT que le dos ne s\'arque. Reviens en contractant les abdos. Commence avec 1/3 d\'amplitude et augmente semaine après semaine. Exercice n°1 pour le ventre bas.',
+     padel:'Renforce exactement les muscles qui protègent tes lombaires lors des rotations.'},
+  ],
+
+  FORGE_B:[
+    {id:'b1',name:'Hip hinge KB — Soulevé de terre roumain',muscle:'Ischio-jambiers · Fessiers · Lombaires',sets:4,reps:'10',rest:75,
+     tip:'KB 12 kg devant toi. Pieds à largeur d\'épaules. Pousse les HANCHES EN ARRIÈRE (pas les genoux en avant) en laissant le KB descendre le long des jambes. DOS PARFAITEMENT DROIT — regard vers le sol. Ressens l\'étirement dans l\'arrière des cuisses. Remonte en contractant fort les fessiers. Si le dos chauffe : arrête et passe au pont fessier.',
+     padel:'Chaîne postérieure = moteur principal du padel. Accélération, changement de direction, puissance de frappe.'},
+    {id:'b2',name:'Good morning barre légère',muscle:'Lombaires · Ischio-jambiers · Gainage dorsal',sets:3,reps:'12',rest:60,
+     tip:'Barre légère sur les trapèzes (barre seule ou 10 kg max au début). Pieds à largeur d\'épaules, genoux légèrement fléchis. Incline le buste vers l\'avant en gardant le DOS DROIT — comme si tu saluais formellement. Sens l\'étirement dans les ischio. Remonte. Renforce directement les lombaires qui te font souffrir après le padel.',
+     padel:'Lombaires renforcés = dos qui absorbe les rotations sans douleur. Anti-blessure direct.'},
+    {id:'b3',name:'Rowing 1 bras haltère sur banc',muscle:'Grand dorsal · Rhomboïdes · Biceps',sets:4,reps:'10–12',rest:60,
+     tip:'Un genou et une main sur le banc, corps parfaitement HORIZONTAL. Haltère 12 kg dans l\'autre main, bras tendu. Tire vers ta HANCHE (pas ton épaule) — le coude colle au corps. Contracte le dos en haut 1 seconde. Dos horizontal toujours, pas de rotation. C\'est l\'exercice roi du dos avec haltères.',
+     padel:'Grand dorsal puissant = stabilité dans les revers et frappes défensives.'},
+    {id:'b4',name:'Tirage élastique — dos large',muscle:'Grand dorsal · Rhomboïdes · Rétracteurs épaule',sets:3,reps:'15',rest:45,
+     tip:'Fixe l\'élastique à hauteur de tête (porte, poteau). Recule pour créer la tension. Tire vers toi en écartant les coudes, comme si tu essayais de casser un stylo avec tes omoplates. Sens le dos se contracter à fond. Mouvement lent, contrôlé.',
+     padel:'Épaules et dos solides = moins de blessures, meilleure posture sur le court.'},
+    {id:'b5',name:'Curl barre — biceps',muscle:'Biceps (chef long et court)',sets:4,reps:'10–12',rest:75,
+     tip:'Debout, barre tenue paumes vers le ciel (supination). Coudes FIXES le long du corps — ils ne bougent pas, jamais. Fléchis les avant-bras vers tes épaules. Redescends en 3 secondes (la phase lente est celle qui fait grossir le muscle). Charge départ : 15–20 kg.',
+     padel:'Contrôle des frappes liftées et ajustements au poignet.'},
+    {id:'b6',name:'Curl marteau haltères',muscle:'Biceps · Brachio-radial · Avant-bras',sets:3,reps:'12',rest:60,
+     tip:'Haltères tenus à la verticale, pouce vers le haut — comme si tu tenais deux marteaux. Même mouvement que le curl classique. Active plus le brachio-radial (muscle de l\'avant-bras) et réduit le stress sur le poignet. Charge : 2 × 10–12 kg.',
+     padel:'Stabilité et force du poignet dans les frappes — réduit le risque de blessure.'},
+    {id:'b7',name:'Pont fessier lesté chevilles',muscle:'Fessiers · Ischio-jambiers · Stabilisateurs hanche',sets:3,reps:'15–20',rest:45,
+     tip:'Allongé sur le dos, genoux à 90°, pieds à plat, poids aux chevilles. Soulève le bassin en contractant les fessiers — tiens 2 secondes en haut. Les genoux ne s\'écartent pas. Redescends sans poser complètement. Variante avancée : une jambe à la fois (superpuissant).',
+     padel:'Stabilisateurs de hanche forts = dos qui souffre moins pendant et après le padel.'},
+    {id:'b8',name:'Gainage planche — variations',muscle:'Transverse · Abdos profonds · Lombaires',sets:3,reps:'30–45s',rest:45,
+     tip:'Avant-bras. Corps en ligne droite de la tête aux talons. Contracte les abdos ET les fessiers ensemble. Ne laisse pas le bassin monter ni descendre. Progression : planche frontale (30s) → planche latérale droite (20s) → planche latérale gauche (20s). Augmente de 5 secondes par semaine.',
+     padel:'Sans gainage, la force de tes jambes se perd dans le tronc. Avec gainage, elle se transmet jusqu\'à ta raquette.'},
+  ],
+
+  FORGE_C:[
+    {id:'c1',name:'Développé militaire haltères — épaules',muscle:'Deltoïde antérieur · Deltoïde médial · Triceps',sets:4,reps:'10–12',rest:60,
+     tip:'Assis ou debout. Haltères à hauteur des épaules, paumes vers l\'avant. Pousse vers le haut jusqu\'à quasi-extension des bras. Redescends contrôlé. Ne verrouille pas les coudes en haut. 2 × 8–10 kg. Travaille les deux faisceaux de l\'épaule simultanément.',
+     padel:'Épaule plus solide et puissante = meilleure stabilité dans tous les gestes.'},
+    {id:'c2',name:'Curl élastique — biceps incliné',muscle:'Biceps (chef long) · Étirement complet',sets:3,reps:'12–15',rest:45,
+     tip:'Fixe l\'élastique bas. Bras incliné légèrement vers l\'arrière — ça étire davantage le chef long du biceps. Curl lent et contrôlé. Excellente variante pour travailler le biceps dans toute son amplitude.',
+     padel:''},
+    {id:'c3',name:'Élévations frontales haltères',muscle:'Deltoïde antérieur (avant épaule)',sets:3,reps:'12',rest:45,
+     tip:'Debout, haltères en main paumes vers le bas. Lève un bras vers l\'avant jusqu\'à hauteur d\'épaule — jamais plus haut. Redescends contrôlé. Alterne les bras. 4–6 kg max. Cible l\'avant de l\'épaule que les autres exercices touchent moins.',
+     padel:'Puissance dans les smash et les gestes vers l\'avant.'},
+    {id:'c4',name:'Crunch bicycle',muscle:'Abdos · Obliques · Rotation',sets:3,reps:'20 de chaque',rest:45,
+     tip:'Allongé sur le dos, mains derrière la tête (ne tire pas). Amène le coude droit vers le genou gauche fléchi, jambe droite tendue. Alterne. Mouvement contrôlé, pas de balancier. Travaille les obliques (côtés du ventre) souvent oubliés.',
+     padel:'Les obliques sont les muscles des rotations — directement impliqués dans chaque frappe.'},
+    {id:'c5',name:'Gainage latéral — planche côté',muscle:'Obliques · Abducteurs · Stabilité latérale',sets:3,reps:'30s chaque',rest:30,
+     tip:'Sur l\'avant-bras, corps de côté en ligne droite. Hanche qui ne descend pas. Progression : genoux pliés → genoux tendus → bras tendu. 30 secondes chaque côté. Les muscles latéraux du tronc sont souvent le maillon faible.',
+     padel:'Stabilité latérale = protection des hanches et du dos dans les mouvements latéraux du padel.'},
+    {id:'c6',name:'Roulette abdos',muscle:'Transverse · Rectus abdominis · Gainage complet',sets:3,reps:'10–12',rest:60,
+     tip:'Comme en Forge A mais avec plus d\'amplitude. À genoux, roule vers l\'avant, corps rigide, arrête juste avant que le dos s\'arque. Reviens en soufflant. Augmente l\'amplitude de 2 cm par semaine.',
+     padel:'Le meilleur exercice pour le ventre bas et la protection lombaire.'},
+    {id:'c7',name:'Pont fessier 1 jambe',muscle:'Fessiers (isolation) · Ischio · Stabilité hanche',sets:3,reps:'12 de chaque',rest:45,
+     tip:'Allongé sur le dos. Une jambe levée et tendue, l\'autre pied à plat. Soulève le bassin avec une seule jambe. Corps en ligne droite. Plus difficile que le pont classique — isole chaque fessier indépendamment. Corrige les déséquilibres droite/gauche.',
+     padel:'Chaque pas, chaque déplacement latéral sollicite les fessiers unilatéralement.'},
+  ]
+};
+
+// ========== DONNÉES PROGRAMME ==========
+const PROG_INFO = {
+  hiit:{
+    title:'HIIT — Je me fracasse',color:'var(--hiit)',
+    subtitle:'25–30 min · Circuit 4 rounds · 30 secondes de repos max entre chaque exercice',
+    intro:'Le principe : tu enchaînes les exercices avec 30 secondes de repos maximum. 4 rounds complets. Résultat : tu transpires, ton cœur monte, tu vides la tête, tu développes l\'explosivité qui te manque sur le padel. Interdit de s\'asseoir entre les séries. Ce n\'est pas une séance de force — c\'est une séance d\'intensité et de cardio-muscu.',
+    alert:'Jamais la veille d\'un padel. Donne 24h de récupération entre le HIIT et une partie.'
   },
-  pull: {
-    name: 'B · PULL', sub: 'Dos · Biceps — 40-50 min', color: 'var(--green)',
-    exercises: [
-      {name:'Échauffement', tag:'ÉCHAUF.', tagClass:'warmup-tag', cardClass:'warmup', detail:'Corde à sauter 2 min + 10 tirages élastique porte + rotations', sets:[
-        {label:'1',type:'time',placeholder:'2:00',unit:'min',noWeight:true},
-        {label:'2',type:'check',text:'Élastique + rotations',noWeight:true}
-      ], rest:0},
-      {name:'Rowing barre penché', tag:'3 × 10', detail:'Penché à 45° · Tire vers le nombril · Dos droit', note:'⚠️ Genoux pliés pour protéger le bas du dos', sets:3, reps:10, weight:true, rest:90},
-      {name:'Rowing un bras — Haltère/banc', tag:'3 × 10/bras', detail:'Un genou + une main sur banc · Tire vers la hanche', sets:3, reps:10, weight:true, rest:60},
-      {name:'Face pull — Élastique porte', tag:'3 × 15', detail:'Élastique en haut de la porte · Tire vers le visage · Coudes hauts', note:'💡 Noeud au-dessus de la porte fermée, côté opposé à toi', sets:3, reps:15, weight:false, rest:60},
-      {name:'Kettlebell Swing', tag:'3 × 15', detail:'Hanches qui poussent · Dos droit · Monte à hauteur poitrine', note:'⚠️ C\'est les HANCHES qui poussent, pas les bras', sets:3, reps:15, weight:true, rest:60},
-      {name:'Curl biceps — Barre', tag:'3 × 10', detail:'Debout · Coudes collés au corps · Monte lentement', sets:3, reps:10, weight:true, rest:60},
-      {name:'Curl marteau — Haltères', tag:'3 × 10', detail:'Paumes face à face · Avant-bras + biceps', sets:3, reps:10, weight:true, rest:60},
-    ]
+  forge_a:{
+    title:'Forge A — Pectoraux · Triceps · Épaules',color:'var(--forge)',
+    subtitle:'40–50 min · Force progressive · Gros exercices en premier · 60–75s de repos',
+    intro:'La logique Forge : muscles de POUSSÉE ensemble. Les pectoraux, les triceps et les épaules travaillent en synergie dans tous les mouvements de poussée. En les regroupant, tu maximises le travail sur ces muscles sans disperser l\'énergie. Commence toujours par le développé couché quand tu es frais, termine par les exercices d\'isolation.',
+    alert:'Repos 75s sur les gros exercices (développé couché), 60s sur les autres. Ne réduis pas le repos — c\'est lui qui permet de soulever lourd à la série suivante.'
   },
-  legs: {
-    name: 'C · JAMBES + CORE', sub: 'Quadriceps · Ischios · Fessiers · Abdos — 45-55 min', color: 'var(--orange)',
-    exercises: [
-      {name:'Échauffement', tag:'ÉCHAUF.', tagClass:'warmup-tag', cardClass:'warmup', detail:'Corde à sauter 2 min + 10 squats corps + 10 fentes corps', sets:[
-        {label:'1',type:'time',placeholder:'2:00',unit:'min',noWeight:true},
-        {label:'2',type:'check',text:'Squats + fentes corps',noWeight:true}
-      ], rest:0},
-      {name:'Squat goblet — Kettlebell', tag:'3 × 12', detail:'Kettlebell contre la poitrine · Cuisses parallèles au sol', note:'💡 Genoux vers l\'extérieur · Talons au sol', sets:3, reps:12, weight:true, rest:90},
-      {name:'Fentes marchées — Haltères', tag:'3 × 10/jambe', detail:'Un haltère par main · Grand pas · Genou arrière frôle le sol', sets:3, reps:10, weight:true, rest:90},
-      {name:'Soulevé de terre roumain — Haltères', tag:'3 × 10', detail:'Haltères devant cuisses · Pousse fesses en arrière · Jambes quasi tendues', note:'⚠️ Dos droit ! Sens l\'étirement derrière les cuisses', sets:3, reps:10, weight:true, rest:90},
-      {name:'Hip thrust — Banc', tag:'3 × 12', detail:'Épaules sur banc · Poids sur les hanches · Pousse vers le plafond', sets:3, reps:12, weight:true, rest:60},
-      {name:'Roulette abdos', tag:'3 × 10', tagClass:'core-tag', cardClass:'core', detail:'À genoux · Roule lentement · Rentre le nombril', note:'⚠️ Ne cambre PAS le dos', sets:3, reps:10, weight:false, rest:60},
-      {name:'Planche', tag:'3 × 40s', tagClass:'core-tag', cardClass:'core', detail:'Avant-bras · Corps droit · Serre abdos + fessiers', isTime:true, sets:3, reps:'40', weight:false, rest:45},
-    ]
+  forge_b:{
+    title:'Forge B — Dos · Biceps · Ischio-jambiers · Fessiers',color:'var(--forge)',
+    subtitle:'40–50 min · Chaîne postérieure + Tirage · 60–75s de repos',
+    intro:'La logique Forge B : muscles de TIRAGE + chaîne postérieure. Les biceps sont naturellement sollicités dans tous les exercices de dos (rowing, tirage) — c\'est pourquoi ils sont dans la même séance. La chaîne postérieure (ischio, fessiers, lombaires) est ton moteur principal pour le padel et la protection du dos.',
+    alert:'Si le bas du dos chauffe sur le Hip Hinge, réduis le poids ou passe directement au Pont fessier.'
   },
-  optional: {
-    name: 'D · TABATA + ABDOS', sub: 'Cardio HIIT · Core · Bas du ventre — 25-30 min', color: 'var(--purple)',
-    hasTabata: true,
-    exercises: [
-      {name:'TABATA — Corde à sauter', tag:'TABATA', tagClass:'tabata-tag', cardClass:'tabata',
-        detail:'8 rounds : 20s à fond / 10s repos = 4 min total\nAppuie sur START ci-dessous puis suis le timer.',
-        isTabata:true, sets:[], rest:0},
-      {name:'Roulette abdos', tag:'3 × 12', tagClass:'core-tag', cardClass:'core', detail:'À genoux · Lent et contrôlé', sets:3, reps:12, weight:false, rest:45},
-      {name:'Crunch inversé (BAS DU VENTRE)', tag:'3 × 15', tagClass:'core-tag', cardClass:'core', detail:'Allongé · Lève genoux vers poitrine · Décolle le bassin du sol', note:'🎯 Cible directement le BAS du ventre', sets:3, reps:15, weight:false, rest:45},
-      {name:'Dead bug', tag:'3 × 10/côté', tagClass:'core-tag', cardClass:'core', detail:'Allongé · Bras en l\'air · Descends bras G + jambe D en même temps', note:'💡 Excellent pour le bas du dos ET les abdos profonds', sets:3, reps:10, weight:false, rest:30},
-      {name:'Mountain climbers', tag:'3 × 20', tagClass:'core-tag', cardClass:'core', detail:'Position pompe · Ramène genoux vers poitrine en alternant · Rapide', sets:3, reps:20, weight:false, rest:30},
-      {name:'Planche', tag:'3 × 45s', tagClass:'core-tag', cardClass:'core', detail:'Avant-bras · Serre tout · Dernière ligne droite !', isTime:true, sets:3, reps:'45', weight:false, rest:30},
-      {name:'TABATA — Finition', tag:'TABATA', tagClass:'tabata-tag', cardClass:'tabata',
-        detail:'Encore 4 rounds (20s/10s) de corde à sauter\nOU squats jump si t\'es motivé. Appuie sur START.',
-        isTabata:true, tabataRounds:4, sets:[], rest:0},
-    ]
+  forge_c:{
+    title:'Forge C — Épaules complètes · Gainage · Abdos',color:'var(--opt)',
+    subtitle:'30 min · Optionnelle · Complète ce que A et B ne touchent pas assez',
+    intro:'La Forge C est ta séance bonus. Elle cible les muscles secondaires que A et B sollicitent insuffisamment : faisceau antérieur des épaules, obliques, stabilisateurs de hanche. Elle est optionnelle — fais-la seulement si tu te sens bien et récupéré. Jamais à la place d\'un repos dont ton corps a besoin.',
+    alert:'Séance optionnelle = si tu as un doute sur ta fatigue, repose-toi. Le muscle se construit pendant la récupération.'
   }
 };
 
-// ============ BUILD SESSION ============
-function startSession() {
-  if (!pickedSession) return;
-  currentSession = pickedSession;
-  const tmpl = SESSIONS[currentSession];
-  const date = document.getElementById('startDate').value;
-  const weight = document.getElementById('startWeight').value;
+// ========== STATE ==========
+let currentType = null;
+let currentEx = null;
+let sessions = JSON.parse(localStorage.getItem('fl3_sessions')||'[]');
+let progressData = JSON.parse(localStorage.getItem('fl3_progress')||'[]');
+let currentSessionExs = [];
+let seriesData = {};
+let timerInt = null;
+let timerSec = 0;
+let timerTotal = 0;
 
-  document.getElementById('sBarName').textContent = tmpl.name;
-  document.getElementById('sBarName').style.color = tmpl.color;
-  document.getElementById('sBarDate').textContent = formatDateFR(date) + (weight ? ` · ${weight} kg` : '');
-  document.getElementById('progressFill').style.background = tmpl.color;
+// ========== INIT ==========
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('dateDisplay').textContent = new Date().toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short'});
+  updateStreak();
+  updateTodayMsg();
+  buildWeekStrip();
+  renderProgressTable();
+  renderHistory();
+  renderProgTab('hiit');
+  renderCompTab('corps');
+  updateDashStats();
+});
 
-  const container = document.getElementById('sessionContent');
-  let html = `<div class="progression-note">📈 <strong>Progression</strong> : quand tu réussis toutes les séries facilement → ajoute 2 reps ou 1-2 kg.</div>`;
-
-  tmpl.exercises.forEach((ex, ei) => {
-    const cc = ex.cardClass || '';
-    html += `<div class="exercise-card ${cc}">`;
-    html += `<div class="ex-header"><span class="ex-name">${ex.name}</span><span class="ex-tag ${ex.tagClass||''}">${ex.tag}</span></div>`;
-    html += `<div class="ex-detail">${ex.detail.replace(/\n/g,'<br>')}</div>`;
-    if (ex.note) html += `<div class="ex-note">${ex.note}</div>`;
-
-    if (ex.isTabata) {
-      const rounds = ex.tabataRounds || 8;
-      html += buildTabataHTML(ei, rounds);
-    } else if (Array.isArray(ex.sets)) {
-      html += '<div class="sets-grid">';
-      ex.sets.forEach((s,si) => {
-        html += '<div class="set-row">';
-        html += `<span class="set-label">${s.label}</span>`;
-        html += `<input type="checkbox" class="set-check">`;
-        if (s.type === 'time') {
-          html += `<input type="text" class="set-input" placeholder="${s.placeholder}" style="width:60px"><span class="set-unit">${s.unit}</span>`;
-        } else if (s.text) {
-          html += `<span style="font-size:13px">${s.text}</span>`;
-        }
-        html += '</div>';
-      });
-      html += '</div>';
-    } else {
-      html += '<div class="sets-grid">';
-      for (let i = 1; i <= ex.sets; i++) {
-        html += '<div class="set-row">';
-        html += `<span class="set-label">S${i}</span>`;
-        html += `<input type="checkbox" class="set-check">`;
-        if (ex.weight) html += `<input type="number" class="set-input" placeholder="kg" step="0.5"><span class="set-unit">kg</span>`;
-        if (ex.isTime) {
-          html += `<input type="text" class="set-input" placeholder="${ex.reps}s" style="width:60px"><span class="set-unit">sec</span>`;
-        } else {
-          html += `<input type="number" class="set-input" placeholder="${ex.reps}" min="0"><span class="set-unit">reps</span>`;
-        }
-        html += '</div>';
-      }
-      html += '</div>';
-    }
-
-    if (ex.rest > 0) {
-      html += `<div class="rest-section"><button class="rest-btn" onclick="startRest(this,${ex.rest})">⏱ Repos ${formatTime(ex.rest)}</button><span class="rest-info">entre chaque série</span></div>`;
-    }
-    html += '</div>';
-  });
-  container.innerHTML = html;
-
-  // Track progress
-  container.addEventListener('change', updateProgress);
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById('screen-session').classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  window.scrollTo(0, 0);
+function updateStreak(){
+  document.getElementById('streakCount').textContent = sessions.length;
 }
 
-function buildTabataHTML(id, rounds) {
-  return `<div class="tabata-timer-box" id="tabata-${id}">
-    <div class="tabata-sub">${rounds} rounds · 20s travail / 10s repos · ${rounds === 8 ? '4' : '2'} min total</div>
-    <div class="tabata-phase" id="tabata-phase-${id}">PRÊT ?</div>
-    <div class="tabata-display" id="tabata-display-${id}">0:20</div>
-    <div class="tabata-round" id="tabata-round-${id}">Round 1/${rounds}</div>
-    <div class="tabata-controls">
-      <button class="tabata-start" onclick="startTabata(${id},${rounds})">▶ START</button>
-      <button class="tabata-reset" onclick="resetTabata(${id},${rounds})">↺ Reset</button>
-    </div>
-  </div>`;
-}
-
-// ============ TABATA TIMER ============
-let tabataIntervals = {};
-function startTabata(id, totalRounds) {
-  if (tabataIntervals[id]) { clearInterval(tabataIntervals[id]); tabataIntervals[id] = null; }
-  let round = 1, isWork = true, seconds = 20;
-  const display = document.getElementById(`tabata-display-${id}`);
-  const phase = document.getElementById(`tabata-phase-${id}`);
-  const roundEl = document.getElementById(`tabata-round-${id}`);
-
-  function update() {
-    display.textContent = `0:${String(seconds).padStart(2,'0')}`;
-    display.className = 'tabata-display ' + (isWork ? 'work' : 'rest-phase');
-    phase.textContent = isWork ? '💪 TRAVAIL !' : '😮‍💨 REPOS';
-    phase.style.color = isWork ? 'var(--green)' : 'var(--red)';
-    roundEl.textContent = `Round ${round}/${totalRounds}`;
-  }
-  update();
-  if (navigator.vibrate) navigator.vibrate(200);
-
-  tabataIntervals[id] = setInterval(() => {
-    seconds--;
-    if (seconds < 0) {
-      if (isWork) { isWork = false; seconds = 10; }
-      else { round++; if (round > totalRounds) { clearInterval(tabataIntervals[id]); tabataIntervals[id] = null; phase.textContent = '✅ TERMINÉ !'; phase.style.color = 'var(--green)'; display.textContent = '🎉'; display.className = 'tabata-display'; if (navigator.vibrate) navigator.vibrate([200,100,200,100,200]); return; } isWork = true; seconds = 20; }
-      if (navigator.vibrate) navigator.vibrate(150);
-    }
-    update();
-  }, 1000);
-}
-function resetTabata(id, totalRounds) {
-  if (tabataIntervals[id]) { clearInterval(tabataIntervals[id]); tabataIntervals[id] = null; }
-  document.getElementById(`tabata-phase-${id}`).textContent = 'PRÊT ?';
-  document.getElementById(`tabata-phase-${id}`).style.color = '';
-  document.getElementById(`tabata-display-${id}`).textContent = '0:20';
-  document.getElementById(`tabata-display-${id}`).className = 'tabata-display';
-  document.getElementById(`tabata-round-${id}`).textContent = `Round 1/${totalRounds}`;
-}
-
-// ============ PROGRESS ============
-function updateProgress() {
-  const total = document.querySelectorAll('#screen-session .set-check').length;
-  const done = document.querySelectorAll('#screen-session .set-check:checked').length;
-  const pct = total > 0 ? Math.round(done / total * 100) : 0;
-  document.getElementById('progressFill').style.width = pct + '%';
-}
-
-// ============ REST TIMER ============
-let activeTimer = null;
-function startRest(btn, seconds) {
-  if (activeTimer) { clearInterval(activeTimer.interval); activeTimer.btn.classList.remove('running','done'); activeTimer.btn.textContent = activeTimer.original; }
-  let remaining = seconds;
-  const original = btn.textContent;
-  btn.classList.add('running');
-  btn.textContent = formatTime(remaining);
-  if (navigator.vibrate) navigator.vibrate(100);
-  activeTimer = { btn, original, interval: setInterval(() => {
-    remaining--;
-    btn.textContent = formatTime(remaining);
-    if (remaining <= 0) {
-      clearInterval(activeTimer.interval);
-      btn.classList.remove('running');
-      btn.classList.add('done');
-      btn.textContent = '✅ GO !';
-      if (navigator.vibrate) navigator.vibrate([200,100,200]);
-      setTimeout(() => { btn.classList.remove('done'); btn.textContent = original; }, 3000);
-      activeTimer = null;
-    }
-  }, 1000)};
-}
-function formatTime(s) { return Math.floor(s/60) + ':' + String(s%60).padStart(2,'0'); }
-
-// ============ SAVE ============
-function saveSession() {
-  const date = document.getElementById('startDate').value;
-  const weight = document.getElementById('startWeight').value;
-  const tmpl = SESSIONS[currentSession];
-  const checks = document.querySelectorAll('#screen-session .set-check');
-  const total = checks.length;
-  const done = document.querySelectorAll('#screen-session .set-check:checked').length;
-
-  const exercises = [];
-  document.querySelectorAll('#screen-session .exercise-card').forEach(card => {
-    const name = card.querySelector('.ex-name')?.textContent || '';
-    const sets = [];
-    card.querySelectorAll('.set-row').forEach(row => {
-      const check = row.querySelector('.set-check');
-      const inputs = row.querySelectorAll('.set-input');
-      sets.push({ done: check ? check.checked : false, values: Array.from(inputs).map(i => i.value) });
-    });
-    exercises.push({ name, sets });
-  });
-
-  const entry = {
-    date, bodyWeight: weight, session: currentSession, sessionName: tmpl.name,
-    exercises, completedSets: done, totalSets: total, savedAt: new Date().toISOString()
+function updateTodayMsg(){
+  const day = new Date().getDay();
+  const msgs={
+    0:'Repos actif. Marche légère, étirements. Le muscle se construit pendant la récupération.',
+    1:'Forge A recommandée — Pectoraux, Triceps, Épaules. Note tes charges.',
+    2:'Padel ! Hydrate-toi bien (2,5L). Échauffement 5 min avant de jouer.',
+    3:'HIIT ou Forge B selon ton énergie. Écoute ton corps.',
+    4:'Forge B recommandée — Dos, Biceps, Ischio, Fessiers.',
+    5:'Padel ! Dernier effort de la semaine.',
+    6:'Forge C optionnelle ou repos total. À toi de voir.'
   };
-  const history = JSON.parse(localStorage.getItem('gym-history') || '[]');
-  history.unshift(entry);
-  if (history.length > 200) history.pop();
-  localStorage.setItem('gym-history', JSON.stringify(history));
-
-  const btn = document.querySelector('.save-btn.primary');
-  btn.textContent = '✅ Sauvegardé !';
-  btn.style.background = 'var(--green)';
-  setTimeout(() => { btn.textContent = '💾 Sauvegarder la séance'; btn.style.background = ''; }, 2000);
+  document.getElementById('todayMsg').textContent = msgs[day]||'Bonne journée.';
 }
 
-function resetSession() {
-  document.querySelectorAll('#screen-session .set-check').forEach(c => c.checked = false);
-  document.querySelectorAll('#screen-session .set-input').forEach(i => i.value = '');
-  updateProgress();
+function buildWeekStrip(){
+  const day = new Date().getDay();
+  const days=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+  const plan={1:'Forge A',2:'Padel',3:'HIIT',4:'Forge B',5:'Padel',6:'Forge C',0:'Repos'};
+  const colors={1:'var(--forge)',2:'var(--padel)',3:'var(--hiit)',4:'var(--forge)',5:'var(--padel)',6:'var(--opt)',0:'var(--text3)'};
+  let html='';
+  for(let i=1;i<=7;i++){
+    const d=i%7;
+    const cls='day-pill'+(d===day?' today':'')+(d===2||d===5?' padel':'');
+    html+=`<div class="${cls}"><div class="day-name">${days[d]}</div><div class="day-type" style="color:${colors[d]};font-size:10px">${plan[d]}</div></div>`;
+  }
+  document.getElementById('weekStrip').innerHTML=html;
 }
 
-// ============ HISTORY ============
-function renderHistory() {
-  const list = document.getElementById('historyList');
-  const history = JSON.parse(localStorage.getItem('gym-history') || '[]');
-  if (!history.length) { list.innerHTML = '<div class="empty-state">Aucune séance enregistrée.<br>Lance ta première séance depuis l\'accueil !</div>'; return; }
-  list.innerHTML = history.map((h, i) => {
-    const pct = h.totalSets > 0 ? Math.round(h.completedSets / h.totalSets * 100) : 0;
-    const w = h.bodyWeight ? ` · ${h.bodyWeight} kg` : '';
-    const color = {push:'var(--accent)',pull:'var(--green)',legs:'var(--orange)',optional:'var(--purple)'}[h.session] || 'var(--accent)';
-    return `<div class="hist-entry">
-      <div class="hist-date">${formatDateFR(h.date)}${w}</div>
-      <div class="hist-title" style="color:${color}">${h.sessionName||h.session}</div>
-      <div class="hist-stats">${h.completedSets}/${h.totalSets} séries · ${pct}%</div>
-      <div class="hist-pct-bar"><div class="hist-pct-fill" style="width:${pct}%;background:${color}"></div></div>
-      <button class="hist-delete" onclick="deleteHistory(${i})">Supprimer</button>
+function updateDashStats(){
+  if(progressData.length>0){
+    const last=progressData[progressData.length-1];
+    document.getElementById('dashPoids').innerHTML=last.poids+'<span class="stat-unit"> kg</span>';
+    document.getElementById('dashTaille').innerHTML=last.taille+'<span class="stat-unit"> cm</span>';
+    if(progressData.length>1){
+      const prev=progressData[progressData.length-2];
+      const diff=(parseFloat(last.poids)-parseFloat(prev.poids)).toFixed(1);
+      const el=document.getElementById('dashPoidsEvo');
+      el.textContent=(diff>0?'+':'')+diff+' kg vs sem. dernière';
+      el.style.color=diff<0?'var(--green)':diff>0?'var(--red)':'var(--text3)';
+    }
+  }
+  const now=new Date();
+  const month=sessions.filter(s=>{const d=new Date(s.date);return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();});
+  document.getElementById('dashSeances').textContent=month.length;
+}
+
+// ========== PANELS ==========
+function showPanel(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('mainContent').scrollTop=0;
+  if(id==='progression') renderProgressTable();
+  if(id==='log') renderHistory();
+}
+
+// ========== LOG ==========
+function showLogTab(id,btn){
+  document.getElementById('logTab-new').style.display=id==='new'?'block':'none';
+  document.getElementById('logTab-history').style.display=id==='history'?'block':'none';
+  btn.closest('.seg-tabs').querySelectorAll('.seg-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  if(id==='history') renderHistory();
+}
+
+function selectType(type,card){
+  currentType=type;
+  currentSessionExs=[];
+  document.querySelectorAll('.seance-card').forEach(c=>{
+    c.className='seance-card';
+  });
+  const selMap={HIIT:'sel-hiit',FORGE_A:'sel-forge',FORGE_B:'sel-forge',FORGE_C:'sel-opt'};
+  card.classList.add(selMap[type]||'sel-forge');
+
+  const alerts={
+    HIIT:'<div class="alert alert-warning mt8"><i class="ti ti-alert-triangle"></i><span>Cheville instable ? Remplace les exercices avec saut/impact par leur version au sol.</span></div>',
+    FORGE_B:'<div class="alert alert-warning mt8"><i class="ti ti-alert-triangle"></i><span>Dos : si ça chauffe sur le Hip Hinge, réduis le poids ou passe directement au Pont fessier.</span></div>',
+  };
+  const al=document.getElementById('typeAlert');
+  al.innerHTML=alerts[type]||'';
+  al.style.display=alerts[type]?'block':'none';
+
+  const labels={HIIT:'🔥 HIIT — Circuit explosif',FORGE_A:'⚒ Forge A — Pectoraux · Triceps · Épaules',FORGE_B:'💪 Forge B — Dos · Biceps · Ischio · Fessiers',FORGE_C:'✨ Forge C — Épaules · Gainage · Abdos'};
+  document.getElementById('seanceLabel').textContent=labels[type]||'';
+  document.getElementById('stepEx').style.display='block';
+  document.getElementById('stepSeries').style.display='none';
+  document.getElementById('sessionCard').style.display='none';
+  renderExPicker();
+}
+
+function getExsForType(t){return EX[t]||[];}
+
+function getPR(exId){
+  for(let i=sessions.length-1;i>=0;i--){
+    const s=sessions[i];
+    if(!s.exercises) continue;
+    const found=s.exercises.find(e=>e.id===exId);
+    if(found&&found.sets&&found.sets.length>0){
+      const maxKg=Math.max(...found.sets.map(st=>st.kg||0));
+      const maxReps=Math.max(...found.sets.map(st=>st.reps||0));
+      return {kg:maxKg,reps:maxReps,date:new Date(s.date).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})};
+    }
+  }
+  return null;
+}
+
+function getLastSets(exId){
+  for(let i=sessions.length-1;i>=0;i--){
+    const s=sessions[i];
+    if(!s.exercises) continue;
+    const found=s.exercises.find(e=>e.id===exId);
+    if(found&&found.sets) return found.sets;
+  }
+  return null;
+}
+
+function renderExPicker(){
+  const exs=getExsForType(currentType);
+  const doneIds=currentSessionExs.map(e=>e.id);
+  let html='';
+  exs.forEach(ex=>{
+    const done=doneIds.includes(ex.id);
+    const pr=getPR(ex.id);
+    html+=`<button class="ex-pick-btn${done?' done':''}" onclick="openEx('${ex.id}')">
+      <div style="flex:1">
+        <div class="ex-pick-name">${done?'✓ ':''} ${ex.name}</div>
+        <div class="ex-pick-sub">
+          <span class="ex-pick-chip">${ex.muscle.split('·')[0].trim()}</span>
+          <span class="ex-pick-chip">${ex.sets} séries · ${ex.reps} reps</span>
+          ${pr&&pr.kg>0?`<span class="ex-pick-chip" style="background:var(--orange-bg);color:var(--orange);border-color:var(--orange-border)">Dernier : ${pr.kg}kg</span>`:''}
+        </div>
+      </div>
+      <i class="ti ti-${done?'check':'chevron-right'}" style="font-size:18px;color:${done?'var(--green)':'var(--text3)'}"></i>
+    </button>`;
+  });
+  document.getElementById('exPickList').innerHTML=html;
+}
+
+function openEx(id){
+  const exs=getExsForType(currentType);
+  const ex=exs.find(e=>e.id===id);
+  if(!ex) return;
+  currentEx=ex;
+  seriesData={};
+  document.getElementById('stepEx').style.display='none';
+  document.getElementById('stepSeries').style.display='block';
+  document.getElementById('currentExName').textContent=ex.name;
+  document.getElementById('currentExMuscle').textContent=ex.muscle;
+  document.getElementById('currentExTip').querySelector('span').textContent=ex.tip;
+  document.getElementById('seriesContainer').innerHTML='';
+
+  const pr=getPR(ex.id);
+  const lastSets=getLastSets(ex.id);
+  const prBanner=document.getElementById('prBanner');
+
+  if(pr&&pr.kg>0){
+    prBanner.style.display='flex';
+    prBanner.querySelector('span').textContent=`Dernière séance : ${pr.kg} kg × ${pr.reps} reps (${pr.date})`;
+  } else {
+    prBanner.style.display='none';
+  }
+
+  for(let i=1;i<=ex.sets;i++){
+    const prevSet=lastSets&&lastSets[i-1]?lastSets[i-1]:null;
+    addSerieRow(i,prevSet);
+  }
+  document.getElementById('mainContent').scrollTop=0;
+}
+
+function addSerieRow(num,prevSet){
+  const container=document.getElementById('seriesContainer');
+  const id='s'+Date.now()+Math.random().toString(36).slice(2,5);
+  const defaultKg=prevSet?prevSet.kg:0;
+  const defaultReps=prevSet?prevSet.reps:10;
+  seriesData[id]={reps:defaultReps,kg:defaultKg,done:false};
+
+  const row=document.createElement('div');
+  row.className='serie-row';
+  row.id='row_'+id;
+  row.innerHTML=`
+    <div class="serie-num">${num}</div>
+    <div class="stepper-wrap">
+      <div class="stepper-label">Reps</div>
+      <div class="stepper">
+        <button class="step-btn" onclick="step('${id}','reps',-1)">−</button>
+        <div class="step-val" id="reps_${id}">${defaultReps}</div>
+        <button class="step-btn" onclick="step('${id}','reps',1)">+</button>
+      </div>
+      ${prevSet?`<div class="prev-val">Avant : ${prevSet.reps} reps</div>`:''}
+    </div>
+    <div class="stepper-wrap">
+      <div class="stepper-label">Kg</div>
+      <div class="stepper">
+        <button class="step-btn" onclick="step('${id}','kg',-2.5)">−</button>
+        <div class="step-val" id="kg_${id}">${defaultKg%1===0?defaultKg:defaultKg.toFixed(1)}</div>
+        <button class="step-btn" onclick="step('${id}','kg',2.5)">+</button>
+      </div>
+      ${prevSet&&prevSet.kg>0?`<div class="prev-val">Avant : ${prevSet.kg} kg</div>`:''}
+    </div>
+    <button class="serie-done-btn" id="done_${id}" onclick="toggleDone('${id}')"><i class="ti ti-check"></i></button>
+  `;
+  container.appendChild(row);
+}
+
+function addSerie(){
+  const n=document.querySelectorAll('.serie-row').length+1;
+  addSerieRow(n,null);
+}
+
+function step(id,field,delta){
+  if(!seriesData[id]) return;
+  let val=seriesData[id][field]+delta;
+  if(field==='reps') val=Math.max(1,Math.round(val));
+  else val=Math.max(0,Math.round(val*2)/2);
+  seriesData[id][field]=val;
+  document.getElementById(field+'_'+id).textContent=field==='kg'?(val%1===0?val:val.toFixed(1)):val;
+}
+
+function toggleDone(id){
+  if(!seriesData[id]) return;
+  seriesData[id].done=!seriesData[id].done;
+  const btn=document.getElementById('done_'+id);
+  const row=document.getElementById('row_'+id);
+  btn.classList.toggle('done',seriesData[id].done);
+  row.classList.toggle('done-row',seriesData[id].done);
+  if(seriesData[id].done){
+    const restMap={HIIT:30,FORGE_A:currentEx&&(currentEx.id==='a1'||currentEx.id==='a2')?75:60,FORGE_B:currentEx&&(currentEx.id==='b1'||currentEx.id==='b5')?75:60,FORGE_C:45};
+    const rest=restMap[currentType]||60;
+    document.getElementById('timerBlock').style.display='block';
+    setTimer(rest);
+  }
+}
+
+function validateEx(){
+  if(!currentEx) return;
+  const sets=Object.values(seriesData).filter(s=>s.reps>0);
+  if(sets.length===0){showToast('Ajoute au moins une série');return;}
+  const isPR_val=sets.some(s=>{
+    if(s.kg===0) return false;
+    const pr=getPR(currentEx.id);
+    return !pr||s.kg>pr.kg;
+  });
+  const entry={id:currentEx.id,name:currentEx.name,sets,isPR:isPR_val};
+  const idx=currentSessionExs.findIndex(e=>e.id===currentEx.id);
+  if(idx>=0) currentSessionExs[idx]=entry;
+  else currentSessionExs.push(entry);
+  stopTimer();
+  document.getElementById('stepSeries').style.display='none';
+  document.getElementById('stepEx').style.display='block';
+  renderExPicker();
+  updateSessionCard();
+  if(isPR_val) showToast('🏆 Nouveau record personnel !');
+  else showToast('✓ '+currentEx.name+' enregistré');
+}
+
+function backToExPick(){
+  document.getElementById('stepSeries').style.display='none';
+  document.getElementById('stepEx').style.display='block';
+  stopTimer();
+}
+
+function updateSessionCard(){
+  const card=document.getElementById('sessionCard');
+  if(currentSessionExs.length===0){card.style.display='none';return;}
+  card.style.display='block';
+  const tagMap={HIIT:'tag-hiit',FORGE_A:'tag-forge',FORGE_B:'tag-forge',FORGE_C:'tag-opt'};
+  const labels={HIIT:'HIIT',FORGE_A:'Forge A',FORGE_B:'Forge B',FORGE_C:'Forge C'};
+  document.getElementById('sessionTag').className='tag '+(tagMap[currentType]||'tag-forge');
+  document.getElementById('sessionTag').textContent=labels[currentType]||currentType;
+  let html='';
+  currentSessionExs.forEach(ex=>{
+    const chips=ex.sets.map(s=>`<span class="chip${ex.isPR?' pr':''}">${s.reps}r${s.kg>0?' · '+s.kg+'kg':''}${ex.isPR?' 🏆':''}</span>`).join('');
+    html+=`<div class="history-ex"><div class="history-ex-name">${ex.name}</div><div class="chips">${chips}</div></div>`;
+  });
+  document.getElementById('sessionBody').innerHTML=html;
+}
+
+function finishSession(){
+  if(currentSessionExs.length===0){showToast('Aucun exercice logué');return;}
+  const session={date:new Date().toISOString(),type:currentType,exercises:currentSessionExs};
+  sessions.unshift(session);
+  localStorage.setItem('fl3_sessions',JSON.stringify(sessions));
+  resetLog();
+  updateStreak();
+  updateDashStats();
+  renderHistory();
+  showToast('💪 Séance sauvegardée !');
+}
+
+function resetLog(){
+  currentType=null;currentEx=null;currentSessionExs=[];seriesData={};
+  document.querySelectorAll('.seance-card').forEach(c=>c.className='seance-card');
+  document.getElementById('stepEx').style.display='none';
+  document.getElementById('stepSeries').style.display='none';
+  document.getElementById('sessionCard').style.display='none';
+  document.getElementById('typeAlert').style.display='none';
+  stopTimer();
+}
+
+function renderHistory(){
+  const el=document.getElementById('historyList');
+  if(sessions.length===0){
+    el.innerHTML='<div class="empty-state"><i class="ti ti-history"></i><p>Aucune séance encore.<br>Lance ta première séance maintenant !</p></div>';
+    return;
+  }
+  const tagMap={HIIT:'tag-hiit',FORGE_A:'tag-forge',FORGE_B:'tag-forge',FORGE_C:'tag-opt',PADEL:'tag-padel'};
+  const labels={HIIT:'🔥 HIIT',FORGE_A:'⚒ Forge A',FORGE_B:'💪 Forge B',FORGE_C:'✨ Forge C',PADEL:'🎾 Padel'};
+  let html='';
+  sessions.forEach((s,i)=>{
+    const d=new Date(s.date);
+    const ds=d.toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+    let exHtml='';
+    if(s.exercises) s.exercises.forEach(ex=>{
+      const chips=ex.sets.map(st=>`<span class="chip${ex.isPR?' pr':''}">${st.reps}r${st.kg>0?' · '+st.kg+'kg':''}${ex.isPR?' 🏆':''}</span>`).join('');
+      exHtml+=`<div class="history-ex"><div class="history-ex-name">${ex.name}</div><div class="chips">${chips}</div></div>`;
+    });
+    html+=`<div class="history-item">
+      <div class="history-header">
+        <div class="history-date">${ds}</div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <span class="tag ${tagMap[s.type]||'tag-forge'}">${labels[s.type]||s.type}</span>
+          <button class="btn btn-icon btn-red" onclick="deleteSession(${i})" style="padding:5px"><i class="ti ti-trash" style="font-size:14px"></i></button>
+        </div>
+      </div>
+      ${exHtml}
     </div>`;
+  });
+  el.innerHTML=html;
+}
+
+function deleteSession(i){
+  sessions.splice(i,1);
+  localStorage.setItem('fl3_sessions',JSON.stringify(sessions));
+  renderHistory();updateStreak();updateDashStats();
+  showToast('Séance supprimée');
+}
+
+// ========== TIMER ==========
+function setTimer(sec){
+  stopTimer();
+  timerSec=sec;timerTotal=sec;
+  updateTimerDisp();
+  document.getElementById('timerBlock').style.display='block';
+  timerInt=setInterval(()=>{
+    timerSec--;
+    if(timerSec<=0){stopTimer();showToast('⏱ Repos terminé — C\'est parti !');return;}
+    updateTimerDisp();
+  },1000);
+}
+function stopTimer(){
+  clearInterval(timerInt);timerInt=null;timerSec=0;
+  document.getElementById('timerBlock').style.display='none';
+}
+function updateTimerDisp(){
+  const m=Math.floor(timerSec/60);const s=timerSec%60;
+  document.getElementById('timerDisp').textContent=m+':'+(s<10?'0':'')+s;
+  const pct=timerTotal>0?(timerSec/timerTotal*100):0;
+  document.getElementById('timerFill').style.width=pct+'%';
+}
+
+// ========== PROGRAMME ==========
+function showProgTab(id,btn){
+  btn.closest('.seg-tabs').querySelectorAll('.seg-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderProgTab(id);
+}
+
+function renderProgTab(id){
+  const el=document.getElementById('progContent');
+  if(id==='surcharge'){
+    el.innerHTML=`<div class="card mb8">
+      <div class="section-title">La règle d'or — Surcharge progressive</div>
+      <div class="alert alert-info mb8"><i class="ti ti-info-circle"></i><span>Sans surcharge progressive, tu entretiens seulement. Tu ne progresseras pas. C'est la règle n°1 de la musculation.</span></div>
+      <div class="step-row"><div class="step-num">1</div><div><div class="step-title">Tu atteins le haut de fourchette 2 séances de suite</div><div class="step-desc">Exemple : tu fais 10/10 sur le développé couché deux fois → ajoute 2,5 kg à la prochaine séance. Repars à 8 reps. C'est comme ça qu'on progresse.</div></div></div>
+      <div class="step-row"><div class="step-num">2</div><div><div class="step-title">Tu stagnes sur un exercice depuis 3 semaines</div><div class="step-desc">Change la prise OU ajoute une série. JAMAIS les deux en même temps. Ton corps s'adapte — il faut le surprendre autrement.</div></div></div>
+      <div class="step-row"><div class="step-num">3</div><div><div class="step-title">HIIT : pas de charge, augmente le rythme</div><div class="step-desc">Réduis les temps de repos de 5 secondes par semaine. Ou ajoute 2 reps par exercice. La progression en HIIT c'est l'intensité, pas la charge.</div></div></div>
+      <div class="step-row"><div class="step-num">4</div><div><div class="step-title">Semaine 7 : Deload obligatoire</div><div class="step-desc">Réduis le volume de 30% (2 séries au lieu de 4). Mêmes charges. Le muscle récupère en profondeur. Tu reviendras plus fort à la S8.</div></div></div>
+    </div>
+    <div class="card">
+      <div class="section-title">Calendrier 8 semaines</div>
+      ${[['S1–S2','Apprentissage · Trouver les bonnes charges · Technique avant tout','Modéré · 3 séries','60–70%'],
+         ['S3–S4','Progression · +2,5 kg dès que possible · HIIT plus rapide','Modéré · 3–4 séries','70–80%'],
+         ['S5–S6','Intensification · 2 reps de réserve max · Poussée forte','Élevé · 4 séries','75–85%'],
+         ['S7','Deload · Récupération · 2 séries seulement · Mêmes charges','Réduit · 2 séries','60%'],
+         ['S8','Test · PR sur les exercices principaux · Bilan complet','Modéré','85–90%']]
+        .map(r=>`<div style="display:grid;grid-template-columns:55px 1fr;gap:8px;padding:10px 0;border-bottom:1px solid var(--border)">
+          <span style="font-weight:700;color:var(--green-dark);font-size:13px">${r[0]}</span>
+          <div><div style="font-size:13px;font-weight:600">${r[1]}</div><div style="font-size:11px;color:var(--text3);margin-top:2px">${r[2]} · Intensité ${r[3]}</div></div>
+        </div>`).join('')}
+    </div>`;
+    return;
+  }
+
+  const info=PROG_INFO[id];
+  const exs=EX[id.toUpperCase()]||[];
+  let html=`<div class="card mb8">
+    <div style="font-size:17px;font-weight:700;color:${info.color};margin-bottom:4px">${info.title}</div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:10px">${info.subtitle}</div>
+    <div style="font-size:13px;color:var(--text2);line-height:1.6;padding:12px;background:var(--surface2);border-radius:9px;border-left:3px solid ${info.color};margin-bottom:10px">${info.intro}</div>
+    <div class="alert alert-warning" style="margin-bottom:0"><i class="ti ti-alert-triangle"></i><span>${info.alert}</span></div>
+  </div>`;
+
+  exs.forEach((ex)=>{
+    html+=`<div class="prog-ex-card">
+      <div class="prog-ex-header" onclick="toggleProgEx(this)">
+        <div style="flex:1">
+          <div class="prog-ex-name">${ex.name}</div>
+          <div class="prog-ex-meta">
+            <span class="prog-ex-meta-item"><i class="ti ti-repeat"></i>${ex.sets} séries</span>
+            <span class="prog-ex-meta-item"><i class="ti ti-target"></i>${ex.reps}</span>
+            <span class="prog-ex-meta-item"><i class="ti ti-clock" style="color:var(--orange)"></i><span style="color:var(--orange);font-weight:600">${ex.rest}s repos</span></span>
+          </div>
+        </div>
+        <i class="ti ti-chevron-down" style="font-size:16px;color:var(--text3);flex-shrink:0;transition:transform 0.2s"></i>
+      </div>
+      <div class="prog-ex-body">
+        <div class="explain-block">
+          <div class="explain-label">Muscles travaillés</div>
+          <div class="explain-text">${ex.muscle}</div>
+        </div>
+        <div class="explain-block">
+          <div class="explain-label">Comment faire</div>
+          <div class="explain-text">${ex.tip}</div>
+        </div>
+        <div class="rest-box"><i class="ti ti-clock" style="font-size:13px"></i> ${ex.rest} secondes de repos entre chaque série</div>
+        ${ex.padel?`<div class="padel-link-box"><i class="ti ti-tennis" style="font-size:15px;flex-shrink:0;margin-top:1px"></i><span><strong>Lien padel :</strong> ${ex.padel}</span></div>`:''}
+      </div>
+    </div>`;
+  });
+  el.innerHTML=html;
+}
+
+function toggleProgEx(header){
+  const body=header.nextElementSibling;
+  const icon=header.querySelector('.ti-chevron-down');
+  body.classList.toggle('open');
+  if(icon) icon.style.transform=body.classList.contains('open')?'rotate(180deg)':'';
+}
+
+// ========== NUTRITION ==========
+function updateNutri(val){
+  const d={normal:{cal:'1 900 kcal',gluc:'170 g'},padel:{cal:'2 050 kcal',gluc:'195 g'},repos:{cal:'1 800 kcal',gluc:'150 g'}};
+  document.getElementById('nCal').textContent=d[val].cal;
+  document.getElementById('nGluc').textContent=d[val].gluc;
+}
+
+// ========== PROGRESSION ==========
+function addProgress(){
+  const poids=document.getElementById('inPoids').value;
+  const taille=document.getElementById('inTaille').value;
+  const bras=document.getElementById('inBras').value;
+  const energie=document.getElementById('inEnergie').value;
+  if(!poids&&!taille){showToast('Remplis au moins le poids');return;}
+  progressData.push({date:new Date().toISOString(),poids:poids||'—',taille:taille||'—',bras:bras||'—',energie});
+  localStorage.setItem('fl3_progress',JSON.stringify(progressData));
+  ['inPoids','inTaille','inBras'].forEach(id=>{document.getElementById(id).value='';});
+  renderProgressTable();updateDashStats();
+  showToast('✓ Mesure enregistrée');
+}
+function renderProgressTable(){
+  const tbody=document.getElementById('progLog');
+  const empty=document.getElementById('progEmpty');
+  if(progressData.length===0){tbody.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  tbody.innerHTML=progressData.slice().reverse().map(e=>{
+    const d=new Date(e.date).toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
+    const col=e.energie>=4?'var(--green)':e.energie>=3?'var(--orange)':'var(--red)';
+    return `<tr><td>${d}</td><td><strong>${e.poids}</strong> kg</td><td>${e.taille} cm</td><td>${e.bras} cm</td><td style="color:${col};font-weight:700">${e.energie}/5</td></tr>`;
   }).join('');
 }
-function deleteHistory(i) {
-  const h = JSON.parse(localStorage.getItem('gym-history') || '[]');
-  h.splice(i, 1);
-  localStorage.setItem('gym-history', JSON.stringify(h));
-  renderHistory();
+function clearProgress(){
+  if(!confirm('Effacer toutes les mesures ?')) return;
+  progressData=[];localStorage.removeItem('fl3_progress');
+  renderProgressTable();showToast('Données effacées');
 }
 
-function formatDateFR(d) {
-  if (!d) return '';
-  const [y,m,day] = d.split('-');
-  const days = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
-  const dt = new Date(y, m-1, day);
-  return `${days[dt.getDay()]} ${day}/${m}/${y}`;
+// ========== COMPRENDRE ==========
+function showCompTab(id,btn){
+  btn.closest('.seg-tabs').querySelectorAll('.seg-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderCompTab(id);
 }
 
-renderHistory();
+function renderCompTab(id){
+  const el=document.getElementById('compContent');
+  if(id==='corps'){
+    el.innerHTML=`<div class="card mb8">
+      <div class="section-title">Comprendre ton corps pour mieux progresser</div>
+      ${[
+        ['🫀 La chaîne musculaire postérieure','Fessiers · Ischio-jambiers · Lombaires · Érecteurs du rachis',
+         'C\'est l\'ensemble des muscles à l\'arrière du corps. C\'est ton MOTEUR PRINCIPAL — pour courir, sauter, changer de direction, frapper. Elle est sous-développée chez la plupart des gens car on ne la voit pas dans le miroir. Résultat : le dos souffre, les performances stagnent.',
+         'Ton mal de dos après le padel, c\'est cette chaîne qui cède. Forge B la cible directement via Hip hinge, Good morning, Pont fessier. La renforcer = moins de douleur ET plus de puissance.'],
+        ['💪 Le transverse abdominal','Muscle profond du ventre · Le "corset naturel"',
+         'Caché sous tes abdos visibles, le transverse est le muscle qui tient naturellement le ventre plat et stabilise toute ta colonne vertébrale. Les crunchs classiques ne le travaillent presque pas. Il ne se voit pas mais se ressent — et il change l\'aspect du ventre.',
+         'La roulette abdos et la planche le ciblent précisément. C\'est pour ça que ces exercices sont prioritaires pour ton objectif ventre bas — pas les crunchs.'],
+        ['⚡ Le système nerveux central (SNC)','Le chef d\'orchestre de tes muscles',
+         'La fatigue n\'est pas toujours musculaire. Le SNC peut être épuisé avant tes muscles — tu te sens mou, lent, sans motivation malgré des muscles "reposés". C\'est un signal souvent ignoré.',
+         'Perfs qui baissent pendant 2 semaines sans raison = SNC épuisé. La semaine Deload (volume -30%) le régénère complètement. Ne saute jamais le Deload.'],
+        ['🔁 L\'hypertrophie musculaire','Pourquoi et comment les muscles grossissent',
+         'Le muscle ne grandit PAS pendant l\'effort. Il grandit pendant la récupération, si tu lui fournis le stimulus (la charge) ET les matériaux (les protéines). Sans surcharge progressive, le muscle s\'adapte mais ne grossit pas. Sans 145g de protéines, il n\'a pas les briques pour se reconstruire plus grand.',
+         'C\'est pourquoi noter ses charges à chaque séance est non négociable. Sans données, tu ne sais pas si tu progresses réellement.'],
+        ['🫃 Le gras viscéral','Gras abdominal profond — le plus résistant',
+         'Le gras du bas du ventre est majoritairement viscéral (autour des organes abdominaux). Il résiste plus que le gras sous-cutané et répond en dernier à l\'entraînement. Le cortisol (hormone du stress) l\'augmente directement.',
+         'Ton sommeil 23h–6h40 (7h45) est correct. Stress modéré : essaie de te couper des écrans forts et du travail intense après 21h pour réduire le cortisol nocturne.'],
+      ].map(([title,sub,body,why])=>`
+        <div class="body-box">
+          <div class="body-box-title"><i class="ti ti-brain" style="font-size:14px;color:var(--purple)"></i>${title}</div>
+          <div style="font-size:11px;color:var(--text3);margin-bottom:6px;font-weight:500">${sub}</div>
+          <div class="body-box-body">${body}</div>
+          <div class="body-box-why">Dans ton cas → ${why}</div>
+        </div>`).join('')}
+    </div>`;
+    return;
+  }
+
+  if(id==='exos'){
+    const terms=[
+      {t:'Développé couché (barre)',d:'Allongé sur banc plat. Barre au-dessus de la poitrine, largeur épaules. Omoplates serrées contre le banc. Descends vers le torse, repousse. Travaille pectoraux (poitrine), épaules avant, triceps (arrière bras).',p:false},
+      {t:'Développé incliné (haltères)',d:'Même mouvement, banc à 30–45°. Un haltère dans chaque main. Cible le HAUT des pectoraux — la zone la plus visible sous un t-shirt.',p:false},
+      {t:'Écarté couché (haltères)',d:'Allongé sur banc. Haltères ouverts sur les côtés en arc de cercle, légère flexion des coudes. Étire et isole les pectoraux. Charge légère — exercice d\'isolation, pas de force.',p:false},
+      {t:'Extension triceps (élastique)',d:'Élastique fixé en haut. Coudes fixes. Étends les avant-bras. Isole les triceps (arrière du bras) — la partie qui donne le volume au bras.',p:false},
+      {t:'Curl barre (biceps)',d:'Debout, barre paumes vers le ciel. COUDES FIXES le long du corps. Fléchis les avant-bras vers les épaules. Redescends en 3 secondes. Travaille les biceps (face avant du bras).',p:false},
+      {t:'Prise marteau (Curl marteau)',d:'Haltères tenus à la verticale, pouce vers le haut. Même mouvement que le curl. Active le brachio-radial (avant-bras) et réduit le stress sur le poignet.',p:false},
+      {t:'Hip hinge KB (Soulevé roumain)',d:'Hanches poussées EN ARRIÈRE, pas les genoux. KB descend le long des jambes. Dos DROIT obligatoire. Remonte en contractant les fessiers. Travaille ischio-jambiers (arrière cuisse) et fessiers.',p:true},
+      {t:'KB Swing (balancé kettlebell)',d:'Hip hinge puis explosion des hanches vers l\'avant pour propulser le KB. CE N\'EST PAS un exercice de bras — la force vient des hanches. L\'exercice le plus transférable au padel.',p:true},
+      {t:'Rowing 1 bras (sur banc)',d:'Corps horizontal sur le banc. Tire l\'haltère vers la hanche (pas l\'épaule), coude collé au corps. Travaille le grand dorsal (dos large) et les biceps.',p:false},
+      {t:'Pont fessier',d:'Allongé sur le dos, genoux à 90°, poids aux chevilles. Soulève le bassin en contractant les fessiers — tiens 2 secondes. Protège directement le dos.',p:true},
+      {t:'Good morning (barre)',d:'Barre légère sur les trapèzes. Buste incliné vers l\'avant, DOS DROIT. Renforce les lombaires (bas du dos) et les ischio-jambiers.',p:true},
+      {t:'Gainage planche',d:'Avant-bras. Corps en ligne droite. Contracte abdos ET fessiers ensemble. Travaille le transverse — le muscle profond qui tient le ventre.',p:false},
+      {t:'Roulette abdos (Ab wheel)',d:'À genoux. Roule vers l\'avant, corps rigide. Arrête avant que le dos s\'arque. Exercice n°1 pour le transverse et le ventre bas.',p:false},
+      {t:'Élévations latérales',d:'2–4 kg max. Lève latéralement jusqu\'à hauteur d\'épaule. 3 secondes pour redescendre. Avec trop lourd = trapèzes, pas épaules.',p:false},
+      {t:'Surcharge progressive',d:'Augmenter progressivement charge, reps ou séries. C\'est le seul principe qui force le muscle à grossir. Sans ça : entretien seulement.',p:false},
+      {t:'Deload',d:'Semaine de récupération : mêmes charges, volume -30%. Les tendons et le système nerveux récupèrent. Semaine 7 de ton programme — obligatoire.',p:false},
+      {t:'Superset',d:'Enchaîner 2 exercices sans pause. Gain de temps + intensité cardio plus élevée. Utilisé dans les séances HIIT.',p:false},
+      {t:'Reps en réserve (RIR)',d:'S\'arrêter 2 reps avant l\'échec complet. Protège les tendons tout en stimulant la croissance. "Max-2" = faire le max moins 2 répétitions.',p:false},
+      {t:'Hypertrophie',d:'Augmentation du volume des fibres musculaires = croissance musculaire. Nécessite : stimulus (charge progressive) + matériaux (protéines) + récupération.',p:false},
+      {t:'Chaîne postérieure',d:'Ensemble des muscles à l\'arrière du corps : fessiers, ischio-jambiers, lombaires, érecteurs du rachis. Ton moteur principal pour tout mouvement explosif.',p:true},
+    ];
+    el.innerHTML=`<div class="card"><div class="section-title">Dictionnaire complet</div><div class="gloss-grid">${terms.map(g=>`<div class="gloss-item${g.p?' gloss-padel':''}"><div class="gloss-term">${g.t}</div><div class="gloss-def">${g.d}</div></div>`).join('')}</div><div style="margin-top:10px;font-size:11px;color:var(--text3);display:flex;align-items:center;gap:6px"><div style="width:3px;height:12px;background:var(--padel);border-radius:2px"></div>Bordure bleue = particulièrement important pour ton padel</div></div>`;
+    return;
+  }
+
+  if(id==='nutri'){
+    const terms=[
+      {t:'Protéines',d:'Briques qui construisent et réparent tes muscles. 1g = 4 kcal. À chaque repas sans exception. Sources : œufs, poulet, thon, fromage blanc, yaourt grec. Ton objectif : 145g/jour.',p:false},
+      {t:'Glucides (carbs)',d:'Énergie principale du corps. 1g = 4 kcal. Plus les jours de padel (tu brûles plus), moins les jours de repos. Sources : riz, flocons d\'avoine, patate douce, fruits.',p:true},
+      {t:'Lipides (graisses)',d:'Essentiels pour les hormones (testostérone, cortisol) et la satiété. 1g = 9 kcal. Ne jamais éliminer. Sources : huile d\'olive, amandes, jaune d\'œuf, poisson gras.',p:false},
+      {t:'Calories (kcal)',d:'Unité d\'énergie alimentaire. Ton objectif : 1 850–2 000 kcal/jour. En dessous = perte de gras progressive. Au-dessus = prise de masse.',p:false},
+      {t:'Déficit calorique',d:'Manger légèrement moins que ce que ton corps brûle. Ton cible : 200–300 kcal de déficit par jour. Trop agressif = tu perds du muscle aussi.',p:false},
+      {t:'Recomposition corporelle',d:'Perdre du gras ET gagner du muscle simultanément. Ton objectif principal. Possible avec protéines élevées + entraînement progressif + déficit modéré.',p:false},
+      {t:'Fenêtre anabolique',d:'30–60 min après une séance, ton muscle est particulièrement réceptif aux protéines. Mange ton repas riche en protéines après ton sport de 12h.',p:true},
+      {t:'Cortisol',d:'Hormone du stress. Favorise le stockage de gras viscéral (ventre) quand elle est chroniquement élevée. Régulée par le sommeil, la gestion du stress.',p:false},
+      {t:'Métabolisme de base',d:'Calories brûlées sans rien faire (respirer, chauffer le corps...). Le tien : ~1 650 kcal/jour. Avec padel + muscu + quotidien : ~2 100–2 300 kcal/jour.',p:false},
+    ];
+    el.innerHTML=`<div class="card"><div class="section-title">Comprendre la nutrition</div><div class="gloss-grid">${terms.map(g=>`<div class="gloss-item${g.p?' gloss-padel':''}"><div class="gloss-term">${g.t}</div><div class="gloss-def">${g.d}</div></div>`).join('')}</div><div style="margin-top:10px;font-size:11px;color:var(--text3);display:flex;align-items:center;gap:6px"><div style="width:3px;height:12px;background:var(--padel);border-radius:2px"></div>Bordure bleue = particulièrement important les jours de padel</div></div>`;
+  }
+}
+
+// ========== TOAST ==========
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
 </script>
 </body>
 </html>
